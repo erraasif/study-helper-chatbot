@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Study Companion</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .container {
+            width: 800px;
+            height: 600px;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+        }
+        .header {
+            background: rgba(15, 23, 42, 0.6);
+            padding: 20px 28px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .header-icon {
+            font-size: 26px;
+            background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+            padding: 10px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+        }
+        .header h1 { color: #ffffff; font-size: 20px; font-weight: 600; letter-spacing: -0.5px; }
+        .header p { color: #94a3b8; font-size: 13px; margin-top: 2px; }
+        .chat-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 28px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .message {
+            max-width: 80%;
+            padding: 14px 20px;
+            border-radius: 16px;
+            font-size: 14.5px;
+            line-height: 1.6;
+            word-wrap: break-word;
+            white-space: pre-line;
+        }
+        .bot-message {
+            background: rgba(255, 255, 255, 0.06);
+            color: #f1f5f9;
+            align-self: flex-start;
+            border-radius: 16px 16px 16px 4px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .user-message {
+            background: #4f46e5;
+            color: #ffffff;
+            align-self: flex-end;
+            border-radius: 16px 16px 4px 16px;
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
+        }
+        .typing {
+            color: #818cf8;
+            font-size: 13px;
+            padding-left: 28px;
+            font-style: italic;
+            display: none;
+            margin-bottom: 12px;
+        }
+        .input-area {
+            padding: 20px 28px;
+            background: rgba(15, 23, 42, 0.4);
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            gap: 12px;
+        }
+        input {
+            flex: 1;
+            padding: 14px 20px;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            font-size: 14.5px;
+            color: #ffffff;
+            outline: none;
+            transition: all 0.2s;
+        }
+        input:focus { border-color: #6366f1; background: rgba(15, 23, 42, 0.8); }
+        button {
+            padding: 14px 28px;
+            background: #4f46e5;
+            color: #ffffff;
+            border: none;
+            border-radius: 12px;
+            font-size: 14.5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        button:hover { background: #4338ca; }
+        .welcome-hero {
+            text-align: center;
+            margin: auto;
+            color: #94a3b8;
+            max-width: 400px;
+        }
+        .welcome-hero h2 { color: #ffffff; margin-bottom: 8px; font-size: 22px; font-weight: 600; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <div class="header-icon">📚</div>
+        <div>
+            <h1>StudyMate AI</h1>
+            <p>Your Personal AI Study Companion</p>
+        </div>
+    </div>
+    <div class="chat-area" id="chatArea">
+        <div class="welcome-hero">
+            <h2>Welcome to StudyMate AI 👋</h2>
+            <p>Ask me to explain complex concepts, debug scripts, or structure software architectures easily.</p>
+        </div>
+    </div>
+    <div class="typing" id="typingIndicator">StudyMate is writing an explanation...</div>
+    <div class="input-area">
+        <input type="text" id="userInput" placeholder="Ask a study question..."/>
+        <button onclick="sendMessage()">Send →</button>
+    </div>
+</div>
+<script>
+// Simple regex formatter to convert asterisks to bold text tags without loading messy external scripts
+function cleanFormat(text) {
+    return text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+}
+
+async function sendMessage() {
+    const input = document.getElementById('userInput');
+    const msgText = input.value.trim();
+    if (!msgText) return;
+    
+    const chatArea = document.getElementById('chatArea');
+    const indicator = document.getElementById('typingIndicator');
+    const welcome = document.querySelector('.welcome-hero');
+    if (welcome) welcome.remove();
+    
+    chatArea.innerHTML += `<div class="message user-message">${msgText}</div>`;
+    input.value = '';
+    indicator.style.display = 'block';
+    chatArea.scrollTop = chatArea.scrollHeight;
+    
+    try {
+        const response = await fetch('/chat', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ message: msgText })
+        });
+        const data = await response.json();
+        indicator.style.display = 'none';
+        
+        const safeFormattedText = cleanFormat(data.reply);
+        chatArea.innerHTML += `<div class="message bot-message">${safeFormattedText}</div>`;
+    } catch (error) {
+        indicator.style.display = 'none';
+        chatArea.innerHTML += `<div class="message bot-message">Connection failure occurred.</div>`;
+    }
+    chatArea.scrollTop = chatArea.scrollHeight;
+}
+
+document.getElementById('userInput').addEventListener('keydown', function(event) {
+    if (event.key === 'Enter') {
+        event.preventDefault();
+        sendMessage();
+    }
+});
+</script>
+</body>
+</html>
