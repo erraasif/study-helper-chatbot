@@ -3,220 +3,185 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StudyMate AI - Advanced Production Portal</title>
+    <title>StudyMate AI - Executive Console</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background: radial-gradient(circle at top right, #0f162a 0%, #020617 100%);
-            min-height: 100vh;
-            display: flex;
-            padding: 24px;
-            color: #f1f5f9;
-            overflow: hidden;
-        }
-        .app-layout {
-            width: 1240px;
-            height: 780px;
-            margin: auto;
-            background: rgba(15, 23, 42, 0.45);
-            backdrop-filter: blur(32px) saturate(180%);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 32px;
-            display: flex;
-            overflow: hidden;
-            box-shadow: 0 50px 100px -20px rgba(0, 0, 0, 0.7), 0 30px 60px -30px rgba(99, 102, 241, 0.15);
-        }
-        /* Premium Left Panel Navigation */
-        .sidebar {
-            width: 340px;
-            background: rgba(2, 6, 23, 0.4);
-            border-right: 1px solid rgba(255, 255, 255, 0.05);
-            display: flex;
-            flex-direction: column;
-            padding: 32px 24px;
-            gap: 24px;
-        }
-        .user-profile-badge {
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(59, 130, 246, 0.05) 100%);
-            padding: 16px 20px;
-            border-radius: 20px;
-            border: 1px solid rgba(99, 102, 241, 0.2);
-            box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1);
-        }
-        .user-profile-badge h4 { font-size: 13px; text-transform: uppercase; letter-spacing: 1px; color: #818cf8; font-weight: 700; }
-        .user-profile-badge p { font-size: 13px; color: #94a3b8; margin-top: 4px; font-weight: 500; }
-        .btn-action {
-            padding: 14px 20px;
-            background: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%);
-            color: #ffffff;
-            border: none;
-            border-radius: 16px;
-            font-size: 14.5px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            box-shadow: 0 4px 20px rgba(79, 70, 229, 0.25);
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif;
+            background-color: #0b0f19;
+            height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
+            color: #f8fafc;
+            overflow: hidden;
+        }
+        .app-window {
+            width: 96vw;
+            max-width: 1280px;
+            height: 92vh;
+            background-color: #111726;
+            border: 1px solid #1e293b;
+            border-radius: 20px;
+            display: flex;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+        /* Premium Left Panel */
+        .sidebar-container {
+            width: 320px;
+            background-color: #090d16;
+            border-right: 1px solid #1e293b;
+            display: flex;
+            flex-direction: column;
+            padding: 24px;
+            gap: 20px;
+        }
+        .identity-card {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            padding: 16px;
+            border-radius: 12px;
+            border: 1px solid #334155;
+        }
+        .identity-card h5 { font-size: 11px; text-transform: uppercase; color: #38bdf8; letter-spacing: 1px; font-weight: 700; }
+        .identity-card p { font-size: 13px; color: #94a3b8; margin-top: 4px; font-weight: 500; }
+        .btn-universal {
+            width: 100%;
+            padding: 14px;
+            background-color: #0284c7;
+            color: #ffffff;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.15s ease;
+        }
+        .btn-universal:hover { background-color: #0369a1; }
+        .rooms-scroll-list {
+            flex: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
             gap: 8px;
         }
-        .btn-action:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 24px rgba(79, 70, 229, 0.4);
-            filter: brightness(1.1);
-        }
-        .sessions-list-container {
-            flex: 1;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            padding-right: 4px;
-        }
-        .sessions-list-container::-webkit-scrollbar { width: 5px; }
-        .sessions-list-container::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 10px; }
-        .session-item-node {
-            padding: 14px 18px;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            border-radius: 14px;
+        .rooms-scroll-list::-webkit-scrollbar { width: 4px; }
+        .rooms-scroll-list::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 4px; }
+        .room-row-node {
+            padding: 12px 16px;
+            border-radius: 10px;
             font-size: 14px;
-            font-weight: 500;
             color: #94a3b8;
             cursor: pointer;
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.2s;
+            border: 1px solid transparent;
             display: flex;
             align-items: center;
             gap: 12px;
         }
-        .session-item-node.active-node, .session-item-node:hover {
-            background: linear-gradient(90deg, rgba(79, 70, 229, 0.15) 0%, rgba(59, 130, 246, 0.05) 100%);
-            border-color: rgba(99, 102, 241, 0.4);
+        .room-row-node:hover, .room-row-node.active-room-node {
+            background-color: #1e293b;
             color: #ffffff;
-            padding-left: 22px;
+            border-color: #334155;
         }
-        .parameter-knob-box {
-            background: rgba(2, 6, 23, 0.3);
-            padding: 20px;
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.04);
+        .config-knob-panel {
+            background-color: #0f172a;
+            padding: 18px;
+            border-radius: 12px;
+            border: 1px solid #1e293b;
         }
-        .parameter-knob-box label { display: flex; justify-content: space-between; font-size: 13px; color: #94a3b8; margin-bottom: 12px; font-weight: 500; }
-        .parameter-knob-box label span:last-child { color: #6366f1; font-weight: 700; background: rgba(99, 102, 241, 0.1); padding: 2px 8px; border-radius: 6px; }
-        .parameter-knob-box input[type="range"] { width: 100%; accent-color: #6366f1; cursor: pointer; height: 6px; border-radius: 10px; }
+        .config-knob-panel label { display: flex; justify-content: space-between; font-size: 12.5px; color: #94a3b8; margin-bottom: 10px; font-weight: 500; }
+        .config-knob-panel label span:last-child { color: #38bdf8; font-weight: 700; }
+        .config-knob-panel input[type="range"] { width: 100%; accent-color: #0284c7; cursor: pointer; }
         
-        /* Premium Main Workspace Hub */
-        .workspace-main {
+        /* Main Right Workspace */
+        .workspace-container {
             flex: 1;
             display: flex;
             flex-direction: column;
-            background: rgba(2, 6, 23, 0.15);
+            background-color: #0d121f;
         }
-        .header {
-            padding: 24px 36px;
-            background: rgba(2, 6, 23, 0.25);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        .workspace-top-bar {
+            padding: 22px 32px;
+            background-color: #111726;
+            border-bottom: 1px solid #1e293b;
             display: flex;
-            align-items: center;
             justify-content: space-between;
+            align-items: center;
         }
-        .header-meta { display: flex; align-items: center; gap: 18px; }
-        .header-icon { font-size: 24px; background: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%); padding: 12px; border-radius: 16px; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2); }
-        .header h2 { font-size: 20px; font-weight: 700; letter-spacing: -0.5px; color: #ffffff; }
-        .status-pill { display: flex; align-items: center; gap: 8px; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.2); padding: 6px 14px; border-radius: 20px; font-size: 12.5px; color: #10b981; font-weight: 600; }
-        .status-dot { width: 8px; height: 8px; background: #10b981; border-radius: 50%; box-shadow: 0 0 10px #10b981; }
+        .workspace-top-bar h2 { font-size: 17px; font-weight: 600; color: #ffffff; }
+        .server-status-badge { display: flex; align-items: center; gap: 8px; background-color: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.2); padding: 6px 14px; border-radius: 20px; font-size: 12px; color: #34d399; font-weight: 600; }
         
-        .chat-view {
+        .chat-bubbles-viewport {
             flex: 1;
             overflow-y: auto;
-            padding: 36px;
+            padding: 32px;
             display: flex;
             flex-direction: column;
-            gap: 24px;
+            gap: 20px;
         }
-        .chat-view::-webkit-scrollbar { width: 6px; }
-        .chat-view::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.05); border-radius: 10px; }
-        .message-bubble {
+        .chat-bubbles-viewport::-webkit-scrollbar { width: 5px; }
+        .chat-bubbles-viewport::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 10px; }
+        .bubble-frame {
             max-width: 75%;
-            padding: 16px 24px;
-            border-radius: 20px;
-            font-size: 15px;
+            padding: 14px 20px;
+            border-radius: 14px;
+            font-size: 14.5px;
             line-height: 1.6;
             word-wrap: break-word;
             white-space: pre-wrap;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
-        .bot-bubble {
-            background: rgba(255, 255, 255, 0.03);
-            color: #e2e8f0;
-            align-self: flex-start;
-            border-radius: 20px 20px 20px 6px;
-            border: 1px solid rgba(255, 255, 255, 0.04);
-        }
-        .user-bubble {
-            background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%);
-            color: #ffffff;
-            align-self: flex-end;
-            border-radius: 20px 20px 6px 20px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-        }
-        .indicator-label { color: #818cf8; font-size: 13.5px; font-style: italic; display: none; padding-left: 36px; margin-bottom: 16px; font-weight: 500; animation: pulse 1.5s infinite; }
-        @keyframes pulse { 0% { opacity: 0.6; } 50% { opacity: 1; } 100% { opacity: 0.6; } }
+        .bubble-frame-bot { background-color: #111726; color: #e2e8f0; align-self: flex-start; border: 1px solid #1e293b; }
+        .bubble-frame-user { background-color: #0284c7; color: #ffffff; align-self: flex-end; }
+        .stream-loading-label { color: #38bdf8; font-size: 13px; font-style: italic; display: none; padding-left: 32px; margin-bottom: 16px; font-weight: 500; }
         
-        .input-wrapper-dock {
-            padding: 24px 36px;
-            background: rgba(2, 6, 23, 0.3);
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        .dock-input-wrapper {
+            padding: 24px 32px;
+            background-color: #111726;
+            border-top: 1px solid #1e293b;
             display: flex;
-            gap: 16px;
+            gap: 14px;
             align-items: center;
         }
-        .input-wrapper-dock input {
+        .dock-input-wrapper input {
             flex: 1;
-            padding: 16px 24px;
-            background: rgba(15, 23, 42, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 16px;
-            font-size: 15px;
+            padding: 14px 20px;
+            background-color: #090d16;
+            border: 1px solid #1e293b;
+            border-radius: 10px;
+            font-size: 14.5px;
             color: #ffffff;
             outline: none;
-            transition: all 0.2s ease;
+            transition: border-color 0.15s ease;
         }
-        .input-wrapper-dock input:focus { border-color: #6366f1; background: rgba(15, 23, 42, 0.8); box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15); }
-        .btn-send { padding: 16px 28px; border-radius: 16px; font-size: 14.5px; }
+        .dock-input-wrapper input:focus { border-color: #0284c7; }
+        .btn-submit-action { width: auto; padding: 14px 28px; }
     </style>
 </head>
 <body>
-<div class="app-layout">
-    <div class="sidebar">
-        <div class="user-profile-badge">
-            <h4>Google Identity</h4>
+<div class="app-window">
+    <div class="sidebar-container">
+        
+            <h4>Google Account</h4>
             <p>intern.erra@zylo.tech</p>
         </div>
-        <button class="btn-action" onclick="instantiateNewSession()">✨ New Chat Room</button>
-        <div class="sessions-list-container" id="sessionsContainer"></div>
-        <div class="parameter-knob-box">
-            <label><span>Temperature Knob</span><span id="tempValueLabel">0.4</span></label>
+        <button class="btn-universal" onclick="instantiateNewSession()">+ Create Room</button>
+        <div class="rooms-scroll-list" id="sessionsContainer"></div>
+        <div class="config-knob-panel">
+            <label><span>Temperature</span><span id="tempValueLabel">0.4</span></label>
             <input type="range" id="temperatureSlider" min="0.0" max="1.0" step="0.1" value="0.4" oninput="document.getElementById('tempValueLabel').innerText=this.value"/>
         </div>
     </div>
-    <div class="workspace-main">
-        <div class="header">
-            <div class="header-meta">
-                <div class="header-icon">🎓</div>
-                <div>
-                    <h2>StudyMate AI Portal</h2>
-                </div>
-            </div>
-            <div class="status-pill"><div class="status-dot"></div>Serverless Cloud Live</div>
+    <div class="workspace-container">
+        <div class="workspace-top-bar">
+            <h2>StudyMate AI Production Console</h2>
+            <div class="server-status-badge">System Live</div>
         </div>
-        <div class="chat-view" id="chatViewPort"></div>
-        <div class="indicator-label" id="streamIndicator">Typing response stream chunks...</div>
-        <div class="input-wrapper-dock">
-            <input type="text" id="userTextPrompt" placeholder="Ask your engineering study question..." onkeydown="if(event.key==='Enter') executeMessageTransaction()"/>
-            <button class="btn-action btn-send" onclick="executeMessageTransaction()">Send</button>
+        <div class="chat-bubbles-viewport" id="chatViewPort"></div>
+        <div class="stream-loading-label" id="streamIndicator">Processing core stream array...</div>
+        <div class="dock-input-wrapper">
+            <input type="text" id="userTextPrompt" placeholder="Type your academic or engineering question here..." onkeydown="if(event.key==='Enter') executeMessageTransaction()"/>
+            <button class="btn-universal btn-submit-action" onclick="executeMessageTransaction()">Send</button>
         </div>
     </div>
 </div>
@@ -233,8 +198,8 @@ function renderSessionsSidebarLayout() {
     if (!box) return;
     box.innerHTML = '';
     mockSessionsDatabase.forEach(item => {
-        const isActive = item.id === currentActiveSessionUUID ? 'active-node' : '';
-        box.innerHTML += `<div class="session-item-node ${isActive}" onclick="switchSessionScopeUUID('${item.id}')">📝 ${item.title}</div>`;
+        const isActive = item.id === currentActiveSessionUUID ? 'active-room-node' : '';
+        box.innerHTML += `<div class="room-row-node ${isActive}" onclick="switchSessionScopeUUID('${item.id}')">📝 ${item.title}</div>`;
     });
 }
 
@@ -253,7 +218,7 @@ async function switchSessionScopeUUID(id) {
     renderSessionsSidebarLayout();
     
     const chatView = document.getElementById('chatViewPort');
-    chatView.innerHTML = `<div class="message-bubble bot-bubble">Fetching historical logs from Supabase cloud instance engine...</div>`;
+    chatView.innerHTML = `<div class="bubble-frame bubble-frame-bot">Syncing session log entries...</div>`;
     
     try {
         const response = await fetch(`/chat/history/${id}`, {
@@ -265,14 +230,14 @@ async function switchSessionScopeUUID(id) {
         chatView.innerHTML = '';
         if (data.status === "success" && data.history.length > 0) {
             data.history.forEach(msg => {
-                const bubbleClass = msg.role === 'user' ? 'user-bubble' : 'bot-bubble';
-                chatView.innerHTML += `<div class="message-bubble ${bubbleClass}">${msg.content}</div>`;
+                const bubbleClass = msg.role === 'user' ? 'bubble-frame-user' : 'bubble-frame-bot';
+                chatView.innerHTML += `<div class="bubble-frame ${bubbleClass}">${msg.content}</div>`;
             });
         } else {
-            chatView.innerHTML = `<div class="message-bubble bot-bubble">No previous conversation logs detected for this session room context.</div>`;
+            chatView.innerHTML = `<div class="bubble-frame bubble-frame-bot">No previous records found in this context.</div>`;
         }
     } catch (err) {
-        chatView.innerHTML = `<div class="message-bubble bot-bubble">History collection query timed out.</div>`;
+        chatView.innerHTML = `<div class="bubble-frame bubble-frame-bot">Fallback: History lookup timeout.</div>`;
     }
     chatView.scrollTop = chatView.scrollHeight;
 }
@@ -285,13 +250,13 @@ async function executeMessageTransaction() {
     const chatView = document.getElementById('chatViewPort');
     const indicator = document.getElementById('streamIndicator');
 
-    chatView.innerHTML += `<div class="message-bubble user-bubble">${userText}</div>`;
+    chatView.innerHTML += `<div class="bubble-frame bubble-frame-user">${userText}</div>`;
     promptInputNode.value = '';
     indicator.style.display = 'block';
     chatView.scrollTop = chatView.scrollHeight;
 
     const botBubbleNode = document.createElement('div');
-    botBubbleNode.className = 'message-bubble bot-bubble';
+    botBubbleNode.className = 'bubble-frame bubble-frame-bot';
     chatView.appendChild(botBubbleNode);
 
     const tempKnobValue = parseFloat(document.getElementById('temperatureSlider').value);
@@ -311,7 +276,7 @@ async function executeMessageTransaction() {
         });
 
         if (networkResponse.status === 401) {
-            botBubbleNode.innerHTML = "Security Authentication Exception: Identity token validation failed.";
+            botBubbleNode.innerHTML = "Security Access Exception: OAuth verification rejected.";
             indicator.style.display = 'none';
             return;
         }
@@ -372,7 +337,7 @@ async function executeMessageTransaction() {
         }
     } catch (err) {
         indicator.style.display = 'none';
-        botBubbleNode.innerHTML = "Stream loop transmission timeout connection crash.";
+        botBubbleNode.innerHTML = "Transmission disconnected.";
     }
 }
 

@@ -6,16 +6,13 @@ from groq import Groq
 import os
 import json
 import asyncio
-
-# Fallback direct manual client integration for Supabase to bypass internal library import path clashes
 import httpx
 
-app = FastAPI(title="StudyMate AI - Advanced Production Server")
+app = FastAPI(title="StudyMate AI - High-Speed Production Server")
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 templates = Jinja2Templates(directory=os.path.join(BASE_DIR, "templates"))
 
-# Safe Cloud Initialization Triggers
 try:
     groq_client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 except Exception:
@@ -41,7 +38,7 @@ def verify_google_oauth_session(request: Request) -> dict:
     if not auth_header or not auth_header.startswith("Bearer "):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Authentication failed: Google OAuth token validation signature missing."
+            detail="Authentication failed: Missing token parameters."
         )
     return {"user_id": "google_oauth_usr_786", "email": "intern.erra@zylo.tech"}
 
@@ -52,8 +49,8 @@ async def process_live_token_stream(user_message: str, history_list: list, temp_
             return
             
         system_persona = (
-            "You are StudyMate, a premium software engineering mentor and tutor. Explain complex concepts clearly. "
-            "Decline answering prompts that do not map to academic domains."
+            "You are StudyMate, a premium academic mentor. Explain complex computer science concepts concisely. "
+            "Decline answering prompts that fall outside engineering or software disciplines."
         )
         
         messages_payload = [{"role": "system", "content": system_persona}]
@@ -67,7 +64,7 @@ async def process_live_token_stream(user_message: str, history_list: list, temp_
             model="llama-3.1-8b-instant",
             messages=messages_payload,
             temperature=temp_knob,
-            max_tokens=800,
+            max_tokens=600,
             top_p=0.9,
             stream=True
         )
@@ -78,7 +75,7 @@ async def process_live_token_stream(user_message: str, history_list: list, temp_
             if token:
                 full_reply_text += token
                 yield f"data: {json.dumps({'token': token})}\n\n"
-                await asyncio.sleep(0.01)
+                # Removed artificial sleep intervals to maximize streaming speed parameters
                 
         yield f"data: {json.dumps({'done': True, 'full_response': full_reply_text})}\n\n"
         
@@ -148,5 +145,4 @@ async def commit_message_to_db(payload: TransactionPersistenceModel, user: dict 
     except Exception:
         return {"status": "transaction_secured"}
 
-# Vercel entrypoint pointer matching
 app = app
