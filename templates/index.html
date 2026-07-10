@@ -3,192 +3,380 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Study Companion</title>
+    <title>StudyMate AI - Advanced Production Portal</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: radial-gradient(circle at top right, #0f162a 0%, #020617 100%);
             min-height: 100vh;
             display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-        .container {
-            width: 800px;
-            height: 600px;
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 24px;
-            overflow: hidden;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            display: flex;
-            flex-direction: column;
-        }
-        .header {
-            background: rgba(15, 23, 42, 0.6);
-            padding: 20px 28px;
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-        }
-        .header-icon {
-            font-size: 26px;
-            background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
-            padding: 10px;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
-        }
-        .header h1 { color: #ffffff; font-size: 20px; font-weight: 600; letter-spacing: -0.5px; }
-        .header p { color: #94a3b8; font-size: 13px; margin-top: 2px; }
-        .chat-area {
-            flex: 1;
-            overflow-y: auto;
-            padding: 28px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-        .message {
-            max-width: 80%;
-            padding: 14px 20px;
-            border-radius: 16px;
-            font-size: 14.5px;
-            line-height: 1.6;
-            word-wrap: break-word;
-            white-space: pre-line;
-        }
-        .bot-message {
-            background: rgba(255, 255, 255, 0.06);
+            padding: 24px;
             color: #f1f5f9;
-            align-self: flex-start;
-            border-radius: 16px 16px 16px 4px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            overflow: hidden;
         }
-        .user-message {
-            background: #4f46e5;
-            color: #ffffff;
-            align-self: flex-end;
-            border-radius: 16px 16px 4px 16px;
-            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
-        }
-        .typing {
-            color: #818cf8;
-            font-size: 13px;
-            padding-left: 28px;
-            font-style: italic;
-            display: none;
-            margin-bottom: 12px;
-        }
-        .input-area {
-            padding: 20px 28px;
-            background: rgba(15, 23, 42, 0.4);
-            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        .app-layout {
+            width: 1240px;
+            height: 780px;
+            margin: auto;
+            background: rgba(15, 23, 42, 0.45);
+            backdrop-filter: blur(32px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 32px;
             display: flex;
-            gap: 12px;
+            overflow: hidden;
+            box-shadow: 0 50px 100px -20px rgba(0, 0, 0, 0.7), 0 30px 60px -30px rgba(99, 102, 241, 0.15);
         }
-        input {
-            flex: 1;
+        /* Premium Left Panel Navigation */
+        .sidebar {
+            width: 340px;
+            background: rgba(2, 6, 23, 0.4);
+            border-right: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            flex-direction: column;
+            padding: 32px 24px;
+            gap: 24px;
+        }
+        .user-profile-badge {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(59, 130, 246, 0.05) 100%);
+            padding: 16px 20px;
+            border-radius: 20px;
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1);
+        }
+        .user-profile-badge h4 { font-size: 13px; text-transform: uppercase; letter-spacing: 1px; color: #818cf8; font-weight: 700; }
+        .user-profile-badge p { font-size: 13px; color: #94a3b8; margin-top: 4px; font-weight: 500; }
+        .btn-action {
             padding: 14px 20px;
-            background: rgba(15, 23, 42, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            font-size: 14.5px;
-            color: #ffffff;
-            outline: none;
-            transition: all 0.2s;
-        }
-        input:focus { border-color: #6366f1; background: rgba(15, 23, 42, 0.8); }
-        button {
-            padding: 14px 28px;
-            background: #4f46e5;
+            background: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%);
             color: #ffffff;
             border: none;
-            border-radius: 12px;
+            border-radius: 16px;
             font-size: 14.5px;
             font-weight: 600;
             cursor: pointer;
-            transition: background 0.2s;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 20px rgba(79, 70, 229, 0.25);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
-        button:hover { background: #4338ca; }
-        .welcome-hero {
-            text-align: center;
-            margin: auto;
+        .btn-action:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 24px rgba(79, 70, 229, 0.4);
+            filter: brightness(1.1);
+        }
+        .sessions-list-container {
+            flex: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            padding-right: 4px;
+        }
+        .sessions-list-container::-webkit-scrollbar { width: 5px; }
+        .sessions-list-container::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.1); border-radius: 10px; }
+        .session-item-node {
+            padding: 14px 18px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 14px;
+            font-size: 14px;
+            font-weight: 500;
             color: #94a3b8;
-            max-width: 400px;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
-        .welcome-hero h2 { color: #ffffff; margin-bottom: 8px; font-size: 22px; font-weight: 600; }
+        .session-item-node.active-node, .session-item-node:hover {
+            background: linear-gradient(90deg, rgba(79, 70, 229, 0.15) 0%, rgba(59, 130, 246, 0.05) 100%);
+            border-color: rgba(99, 102, 241, 0.4);
+            color: #ffffff;
+            padding-left: 22px;
+        }
+        .parameter-knob-box {
+            background: rgba(2, 6, 23, 0.3);
+            padding: 20px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+        }
+        .parameter-knob-box label { display: flex; justify-content: space-between; font-size: 13px; color: #94a3b8; margin-bottom: 12px; font-weight: 500; }
+        .parameter-knob-box label span:last-child { color: #6366f1; font-weight: 700; background: rgba(99, 102, 241, 0.1); padding: 2px 8px; border-radius: 6px; }
+        .parameter-knob-box input[type="range"] { width: 100%; accent-color: #6366f1; cursor: pointer; height: 6px; border-radius: 10px; }
+        
+        /* Premium Main Workspace Hub */
+        .workspace-main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: rgba(2, 6, 23, 0.15);
+        }
+        .header {
+            padding: 24px 36px;
+            background: rgba(2, 6, 23, 0.25);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .header-meta { display: flex; align-items: center; gap: 18px; }
+        .header-icon { font-size: 24px; background: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%); padding: 12px; border-radius: 16px; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2); }
+        .header h2 { font-size: 20px; font-weight: 700; letter-spacing: -0.5px; color: #ffffff; }
+        .status-pill { display: flex; align-items: center; gap: 8px; background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.2); padding: 6px 14px; border-radius: 20px; font-size: 12.5px; color: #10b981; font-weight: 600; }
+        .status-dot { width: 8px; height: 8px; background: #10b981; border-radius: 50%; box-shadow: 0 0 10px #10b981; }
+        
+        .chat-view {
+            flex: 1;
+            overflow-y: auto;
+            padding: 36px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+        .chat-view::-webkit-scrollbar { width: 6px; }
+        .chat-view::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.05); border-radius: 10px; }
+        .message-bubble {
+            max-width: 75%;
+            padding: 16px 24px;
+            border-radius: 20px;
+            font-size: 15px;
+            line-height: 1.6;
+            word-wrap: break-word;
+            white-space: pre-wrap;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        .bot-bubble {
+            background: rgba(255, 255, 255, 0.03);
+            color: #e2e8f0;
+            align-self: flex-start;
+            border-radius: 20px 20px 20px 6px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+        }
+        .user-bubble {
+            background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%);
+            color: #ffffff;
+            align-self: flex-end;
+            border-radius: 20px 20px 6px 20px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .indicator-label { color: #818cf8; font-size: 13.5px; font-style: italic; display: none; padding-left: 36px; margin-bottom: 16px; font-weight: 500; animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0% { opacity: 0.6; } 50% { opacity: 1; } 100% { opacity: 0.6; } }
+        
+        .input-wrapper-dock {
+            padding: 24px 36px;
+            background: rgba(2, 6, 23, 0.3);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            gap: 16px;
+            align-items: center;
+        }
+        .input-wrapper-dock input {
+            flex: 1;
+            padding: 16px 24px;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 16px;
+            font-size: 15px;
+            color: #ffffff;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+        .input-wrapper-dock input:focus { border-color: #6366f1; background: rgba(15, 23, 42, 0.8); box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15); }
+        .btn-send { padding: 16px 28px; border-radius: 16px; font-size: 14.5px; }
     </style>
 </head>
 <body>
-<div class="container">
-    <div class="header">
-        <div class="header-icon">📚</div>
-        <div>
-            <h1>StudyMate AI</h1>
-            <p>Your Personal AI Study Companion</p>
+<div class="app-layout">
+    <div class="sidebar">
+        <div class="user-profile-badge">
+            <h4>Google Identity</h4>
+            <p>intern.erra@zylo.tech</p>
+        </div>
+        <button class="btn-action" onclick="instantiateNewSession()">✨ New Chat Room</button>
+        <div class="sessions-list-container" id="sessionsContainer"></div>
+        <div class="parameter-knob-box">
+            <label><span>Temperature Knob</span><span id="tempValueLabel">0.4</span></label>
+            <input type="range" id="temperatureSlider" min="0.0" max="1.0" step="0.1" value="0.4" oninput="document.getElementById('tempValueLabel').innerText=this.value"/>
         </div>
     </div>
-    <div class="chat-area" id="chatArea">
-        <div class="welcome-hero">
-            <h2>Welcome to StudyMate AI 👋</h2>
-            <p>Ask me to explain complex concepts, debug scripts, or structure software architectures easily.</p>
+    <div class="workspace-main">
+        <div class="header">
+            <div class="header-meta">
+                <div class="header-icon">🎓</div>
+                <div>
+                    <h2>StudyMate AI Portal</h2>
+                </div>
+            </div>
+            <div class="status-pill"><div class="status-dot"></div>Serverless Cloud Live</div>
         </div>
-    </div>
-    <div class="typing" id="typingIndicator">StudyMate is writing an explanation...</div>
-    <div class="input-area">
-        <input type="text" id="userInput" placeholder="Ask a study question..."/>
-        <button onclick="sendMessage()">Send →</button>
+        <div class="chat-view" id="chatViewPort"></div>
+        <div class="indicator-label" id="streamIndicator">Typing response stream chunks...</div>
+        <div class="input-wrapper-dock">
+            <input type="text" id="userTextPrompt" placeholder="Ask your engineering study question..." onkeydown="if(event.key==='Enter') executeMessageTransaction()"/>
+            <button class="btn-action btn-send" onclick="executeMessageTransaction()">Send</button>
+        </div>
     </div>
 </div>
 <script>
-// Simple regex formatter to convert asterisks to bold text tags without loading messy external scripts
-function cleanFormat(text) {
-    return text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+let mockSessionsDatabase = [
+    { id: "sess_uuid_aa11", title: "Python Arrays Analysis" },
+    { id: "sess_uuid_bb22", title: "FastAPI Routing Rules" }
+];
+let currentActiveSessionUUID = "sess_uuid_aa11";
+const simulateOAuthHeaderSignatureToken = "Bearer google_mock_oauth_signature_hash_token_786";
+
+function renderSessionsSidebarLayout() {
+    const box = document.getElementById('sessionsContainer');
+    if (!box) return;
+    box.innerHTML = '';
+    mockSessionsDatabase.forEach(item => {
+        const isActive = item.id === currentActiveSessionUUID ? 'active-node' : '';
+        box.innerHTML += `<div class="session-item-node ${isActive}" onclick="switchSessionScopeUUID('${item.id}')">📝 ${item.title}</div>`;
+    });
 }
 
-async function sendMessage() {
-    const input = document.getElementById('userInput');
-    const msgText = input.value.trim();
-    if (!msgText) return;
+function instantiateNewSession() {
+    const randomHexID = "sess_uuid_" + Math.random().toString(16).substring(2, 6);
+    const titleText = prompt("Enter Chat Room Title Name:", "New Study Chapter Topic");
+    if (!titleText) return;
+    mockSessionsDatabase.unshift({ id: randomHexID, title: titleText });
+    currentActiveSessionUUID = randomHexID;
+    renderSessionsSidebarLayout();
+    document.getElementById('chatViewPort').innerHTML = '';
+}
+
+async function switchSessionScopeUUID(id) {
+    currentActiveSessionUUID = id;
+    renderSessionsSidebarLayout();
     
-    const chatArea = document.getElementById('chatArea');
-    const indicator = document.getElementById('typingIndicator');
-    const welcome = document.querySelector('.welcome-hero');
-    if (welcome) welcome.remove();
-    
-    chatArea.innerHTML += `<div class="message user-message">${msgText}</div>`;
-    input.value = '';
-    indicator.style.display = 'block';
-    chatArea.scrollTop = chatArea.scrollHeight;
+    const chatView = document.getElementById('chatViewPort');
+    chatView.innerHTML = `<div class="message-bubble bot-bubble">Fetching historical logs from Supabase cloud instance engine...</div>`;
     
     try {
-        const response = await fetch('/chat', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({ message: msgText })
+        const response = await fetch(`/chat/history/${id}`, {
+            method: 'GET',
+            headers: { 'Authorization': simulateOAuthHeaderSignatureToken }
         });
         const data = await response.json();
-        indicator.style.display = 'none';
         
-        const safeFormattedText = cleanFormat(data.reply);
-        chatArea.innerHTML += `<div class="message bot-message">${safeFormattedText}</div>`;
-    } catch (error) {
-        indicator.style.display = 'none';
-        chatArea.innerHTML += `<div class="message bot-message">Connection failure occurred.</div>`;
+        chatView.innerHTML = '';
+        if (data.status === "success" && data.history.length > 0) {
+            data.history.forEach(msg => {
+                const bubbleClass = msg.role === 'user' ? 'user-bubble' : 'bot-bubble';
+                chatView.innerHTML += `<div class="message-bubble ${bubbleClass}">${msg.content}</div>`;
+            });
+        } else {
+            chatView.innerHTML = `<div class="message-bubble bot-bubble">No previous conversation logs detected for this session room context.</div>`;
+        }
+    } catch (err) {
+        chatView.innerHTML = `<div class="message-bubble bot-bubble">History collection query timed out.</div>`;
     }
-    chatArea.scrollTop = chatArea.scrollHeight;
+    chatView.scrollTop = chatView.scrollHeight;
 }
 
-document.getElementById('userInput').addEventListener('keydown', function(event) {
-    if (event.key === 'Enter') {
-        event.preventDefault();
-        sendMessage();
+async function executeMessageTransaction() {
+    const promptInputNode = document.getElementById('userTextPrompt');
+    const userText = promptInputNode.value.trim();
+    if (!userText) return;
+
+    const chatView = document.getElementById('chatViewPort');
+    const indicator = document.getElementById('streamIndicator');
+
+    chatView.innerHTML += `<div class="message-bubble user-bubble">${userText}</div>`;
+    promptInputNode.value = '';
+    indicator.style.display = 'block';
+    chatView.scrollTop = chatView.scrollHeight;
+
+    const botBubbleNode = document.createElement('div');
+    botBubbleNode.className = 'message-bubble bot-bubble';
+    chatView.appendChild(botBubbleNode);
+
+    const tempKnobValue = parseFloat(document.getElementById('temperatureSlider').value);
+
+    try {
+        const networkResponse = await fetch('/chat/stream', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': simulateOAuthHeaderSignatureToken
+            },
+            body: JSON.stringify({
+                message: userText,
+                session_id: currentActiveSessionUUID,
+                temperature: tempKnobValue
+            })
+        });
+
+        if (networkResponse.status === 401) {
+            botBubbleNode.innerHTML = "Security Authentication Exception: Identity token validation failed.";
+            indicator.style.display = 'none';
+            return;
+        }
+
+        const dataReaderStream = networkResponse.body.getReader();
+        const textDecoderDecoder = new TextDecoder();
+        indicator.style.display = 'none';
+        
+        let accumulatedBotTextLogsBuffer = "";
+
+        while (true) {
+            const { value, done } = await dataReaderStream.read();
+            if (done) break;
+
+            const decryptedChunk = textDecoderDecoder.decode(value);
+            const stringLinesArrays = decryptedChunk.split('\n');
+            
+            for (const item of stringLinesArrays) {
+                if (item.startsWith('data: ')) {
+                    const cleanJSONString = item.substring(6).trim();
+                    try {
+                        const parsedObject = JSON.parse(cleanJSONString);
+                        if (parsedObject.token) {
+                            botBubbleNode.innerHTML += parsedObject.token;
+                            accumulatedBotTextLogsBuffer += parsedObject.token;
+                            chatView.scrollTop = chatView.scrollHeight;
+                        }
+                        if (parsedObject.done) {
+                            await fetch('/chat/save', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'Authorization': simulateOAuthHeaderSignatureToken
+                                },
+                                body: JSON.stringify({
+                                    session_id: currentActiveSessionUUID,
+                                    role: "user",
+                                    content: userText
+                                })
+                            });
+                            
+                            await fetch('/chat/save', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'Authorization': simulateOAuthHeaderSignatureToken
+                                },
+                                body: JSON.stringify({
+                                    session_id: currentActiveSessionUUID,
+                                    role: "assistant",
+                                    content: accumulatedBotTextLogsBuffer
+                                })
+                            });
+                        }
+                    } catch(e) {}
+                }
+            }
+        }
+    } catch (err) {
+        indicator.style.display = 'none';
+        botBubbleNode.innerHTML = "Stream loop transmission timeout connection crash.";
     }
-});
+}
+
+renderSessionsSidebarLayout();
 </script>
 </body>
 </html>
