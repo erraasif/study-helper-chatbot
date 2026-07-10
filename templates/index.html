@@ -3,25 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StudyMate AI Platform</title>
+    <title>StudyMate AI - Premium Hub</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background-color: #0b0f19;
+            background-color: #030712;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.12) 0, transparent 50%), 
+                radial-gradient(at 100% 100%, rgba(59, 130, 246, 0.08) 0, transparent 50%);
             height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #f1f5f9;
+            padding: 24px;
+            color: #f8fafc;
             overflow: hidden;
         }
         .app-window {
-            width: 95vw;
+            width: 100%;
             max-width: 1240px;
             height: 90vh;
-            background-color: #111726;
-            border: 1px solid #1e293b;
+            background-color: rgba(17, 24, 39, 0.6);
+            backdrop-filter: blur(20px) saturate(160%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 16px;
             display: flex;
             overflow: hidden;
@@ -29,34 +34,34 @@
         }
         .sidebar {
             width: 280px;
-            background-color: #090d16;
-            border-right: 1px solid #1e293b;
+            background-color: rgba(3, 7, 18, 0.5);
+            border-right: 1px solid rgba(255, 255, 255, 0.06);
             display: flex;
             flex-direction: column;
             padding: 24px;
             gap: 20px;
         }
         .identity-badge {
-            background-color: #111726;
+            background-color: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
             padding: 14px;
-            border-radius: 8px;
-            border: 1px solid #1e293b;
+            border-radius: 10px;
         }
-        .identity-badge h5 { font-size: 11px; text-transform: uppercase; color: #38bdf8; letter-spacing: 0.5px; }
-        .identity-badge p { font-size: 12.5px; color: #94a3b8; margin-top: 4px; }
+        .identity-badge h5 { font-size: 11px; text-transform: uppercase; color: #60a5fa; letter-spacing: 0.5px; font-weight: 700; }
+        .identity-badge p { font-size: 12.5px; color: #94a3b8; margin-top: 4px; font-weight: 500; }
         .btn-action {
             width: 100%;
             padding: 12px;
-            background-color: #0284c7;
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
             color: #ffffff;
             border: none;
             border-radius: 8px;
             font-size: 14px;
             font-weight: 600;
             cursor: pointer;
-            transition: background 0.15s;
+            transition: all 0.15s ease;
         }
-        .btn-action:hover { background-color: #0369a1; }
+        .btn-action:hover { filter: brightness(1.1); }
         .rooms-pane {
             flex: 1;
             overflow-y: auto;
@@ -64,44 +69,49 @@
             flex-direction: column;
             gap: 8px;
         }
+        .rooms-pane::-webkit-scrollbar { width: 4px; }
+        .rooms-pane::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.05); border-radius: 4px; }
         .room-item-row {
             padding: 10px 14px;
+            background-color: rgba(255, 255, 255, 0.01);
+            border: 1px solid rgba(255, 255, 255, 0.03);
             border-radius: 8px;
             font-size: 13.5px;
             color: #94a3b8;
             cursor: pointer;
-            transition: all 0.15s;
+            transition: all 0.15s ease;
         }
         .room-item-row:hover, .room-item-row.active-node {
-            background-color: #1e293b;
-            color: #ffffff;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.1);
+            color: #f8fafc;
         }
         .knob-box {
-            background-color: #111726;
+            background-color: rgba(3, 7, 18, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.04);
             padding: 16px;
-            border-radius: 8px;
-            border: 1px solid #1e293b;
+            border-radius: 10px;
         }
         .knob-box label { display: flex; justify-content: space-between; font-size: 12px; color: #94a3b8; margin-bottom: 8px; }
-        .knob-box input[type="range"] { width: 100%; accent-color: #0284c7; cursor: pointer; }
-        
+        .knob-box label span:last-child { color: #3b82f6; font-weight: 700; }
+        .knob-box input[type="range"] { width: 100%; accent-color: #2563eb; cursor: pointer; }
         .workspace-view {
             flex: 1;
             display: flex;
             flex-direction: column;
-            background-color: #0d121f;
+            background-color: rgba(10, 15, 30, 0.2);
         }
         .top-bar {
             padding: 20px 28px;
-            background-color: #111726;
-            border-bottom: 1px solid #1e293b;
+            background-color: rgba(17, 24, 39, 0.4);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        .top-bar h2 { font-size: 16px; font-weight: 600; }
-        .live-pill { background-color: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.2); padding: 4px 10px; border-radius: 12px; font-size: 11.5px; color: #34d399; font-weight: 600; }
-        
+        .top-bar h2 { font-size: 16px; font-weight: 600; color: #ffffff; }
+        .live-pill { display: flex; align-items: center; gap: 6px; background-color: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.15); padding: 4px 10px; border-radius: 12px; font-size: 11.5px; color: #34d399; font-weight: 600; }
+        .live-dot { width: 6px; height: 6px; background-color: #34d399; border-radius: 50%; box-shadow: 0 0 8px #34d399; }
         .chat-scroll-area {
             flex: 1;
             overflow-y: auto;
@@ -110,37 +120,51 @@
             flex-direction: column;
             gap: 16px;
         }
+        .chat-scroll-area::-webkit-scrollbar { width: 4px; }
+        .chat-scroll-area::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.04); border-radius: 10px; }
         .msg-bubble {
             max-width: 75%;
             padding: 12px 16px;
-            border-radius: 12px;
             font-size: 14.5px;
             line-height: 1.5;
             word-wrap: break-word;
             white-space: pre-wrap;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
         }
-        .bubble-bot { background-color: #111726; color: #e2e8f0; align-self: flex-start; border: 1px solid #1e293b; }
-        .bubble-user { background-color: #0284c7; color: #ffffff; align-self: flex-end; }
-        .loading-text { color: #38bdf8; font-size: 13px; font-style: italic; display: none; padding-left: 28px; margin-bottom: 12px; }
-        
+        .bubble-bot {
+            background-color: rgba(31, 41, 55, 0.4);
+            color: #e2e8f0;
+            align-self: flex-start;
+            border-radius: 12px 12px 12px 4px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+        }
+        .bubble-user {
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            color: #ffffff;
+            align-self: flex-end;
+            border-radius: 12px 12px 4px 12px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        .loading-text { color: #60a5fa; font-size: 13px; font-style: italic; display: none; padding-left: 28px; margin-bottom: 12px; font-weight: 500; }
         .input-bar-dock {
             padding: 20px 28px;
-            background-color: #111726;
-            border-top: 1px solid #1e293b;
+            background-color: rgba(3, 7, 18, 0.4);
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
             display: flex;
             gap: 12px;
+            align-items: center;
         }
         .input-bar-dock input {
             flex: 1;
             padding: 12px 16px;
-            background-color: #090d16;
-            border: 1px solid #1e293b;
+            background-color: rgba(17, 24, 39, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 8px;
             font-size: 14px;
             color: #ffffff;
             outline: none;
         }
-        .input-bar-dock input:focus { border-color: #0284c7; }
+        .input-bar-dock input:focus { border-color: #2563eb; }
         .btn-send { width: auto; padding: 12px 24px; }
     </style>
 </head>
@@ -148,7 +172,7 @@
 <div class="app-window">
     <div class="sidebar">
         
-            <h5>Google Account</h5>
+            <h5>Google Connected</h5>
             <p>intern.erra@zylo.tech</p>
         </div>
         <button class="btn-action" onclick="instantiateNewSession()">+ Create Room</button>
@@ -160,18 +184,19 @@
     </div>
     <div class="workspace-view">
         <div class="top-bar">
-            <h2>StudyMate AI Production Console</h2>
-            <div class="live-pill">System Live</div>
+            <h2>StudyMate AI Corporate Console</h2>
+            <div class="live-pill"><div class="live-dot"></div>Production Active</div>
         </div>
         <div class="chat-scroll-area" id="chatViewPort"></div>
-        <div class="loading-text" id="streamIndicator">Generating content stream...</div>
+        <div class="loading-text" id="streamIndicator">Processing core text stream...</div>
         <div class="input-bar-dock">
-            <input type="text" id="userTextPrompt" placeholder="Type your software study question..." onkeydown="if(event.key==='Enter') executeMessageTransaction()"/>
-            <button class="btn-action btn-send" onclick="executeMessageTransaction()">Send</button>
+            <input type="text" id="userTextPrompt" placeholder="Ask your software engineering question..." onkeydown="if(event.key==='Enter') executeMessageTransaction()"/>
+            <button class="btn-action btn-send" onclick="executeMessageTransaction()">Send →</button>
         </div>
     </div>
 </div>
 <script>
+// Local model synchronization to handle multi-session room tracking maps cleanly
 let mockSessionsDatabase = [
     { id: "sess_uuid_aa11", title: "Python Arrays Analysis" },
     { id: "sess_uuid_bb22", title: "FastAPI Routing Rules" }
@@ -184,7 +209,7 @@ function renderSessionsSidebarLayout() {
     box.innerHTML = '';
     mockSessionsDatabase.forEach(item => {
         const isActive = item.id === currentActiveSessionUUID ? 'active-node' : '';
-        box.innerHTML += `<div class="room-item-row ${isActive}" onclick="switchSessionScopeUUID('${item.id}')">📝 ${item.title}</div>`;
+        box.innerHTML += `<div class="room-item-row ${isActive}" onclick="switchSessionScopeUUID('${item.id}')">📂 ${item.title}</div>`;
     });
 }
 
@@ -201,7 +226,7 @@ function instantiateNewSession() {
 function switchSessionScopeUUID(id) {
     currentActiveSessionUUID = id;
     renderSessionsSidebarLayout();
-    document.getElementById('chatViewPort').innerHTML = `<div class="msg-bubble bubble-bot">Switched workspace room cleanly. Sandbox ready.</div>`;
+    document.getElementById('chatViewPort').innerHTML = `<div class="msg-bubble bubble-bot">Switched workspace scope cleanly. History sandbox empty.</div>`;
 }
 
 async function executeMessageTransaction() {
@@ -238,7 +263,7 @@ async function executeMessageTransaction() {
         const textDecoderDecoder = new TextDecoder();
         indicator.style.display = 'none';
         
-        botBubbleNode.innerHTML = ""; // Clear loader before printing incoming data streams
+        botBubbleNode.innerHTML = ""; // Clear parsing layout indicators before printing incoming streams
 
         while (true) {
             const { value, done } = await dataReaderStream.read();
@@ -262,10 +287,11 @@ async function executeMessageTransaction() {
         }
     } catch (err) {
         indicator.style.display = 'none';
-        botBubbleNode.innerHTML = "Stream loop transmission disconnected.";
+        botBubbleNode.innerHTML = "Stream loop transmission context dropped.";
     }
 }
 
+// Initial structural loading sequence validation trigger
 renderSessionsSidebarLayout();
 </script>
 </body>
