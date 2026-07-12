@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>AuraLearn — Study Smarter</title>
 
-<!-- Global Diagnostic Error Boundary (Renders clear exceptions directly on-screen if variables are missing) -->
+<!-- Global Diagnostic Error Boundary -->
 <script>
     window.addEventListener('error', function(e) {
         document.body.innerHTML = `
@@ -17,8 +17,8 @@
     });
 </script>
 
-<!-- URL-Encoded SVG Favicon (Completely resolves premature tag closing issues) -->
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%239F7AEA'/%3E%3Cstop offset='1' stop-color='%235EEAD4'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M16 3 L29 10 L16 17 L3 10 Z' fill='url(%23g)'/%3E%3Cpath d='M7 13 L7 21 Q16 26 25 21 L25 13' fill='none' stroke='url(%23g)' stroke-width='2.5' stroke-linecap='round'/%3E%3Cline x1='29' y1='10' x2='29' y2='18' stroke='url(%23g)' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E"/>
+<!-- URL-Encoded SVG Favicon -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' fill='none'%3E%3Cdefs%3E%3ClinearGradient id='cyberGradFav' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%236366f1'/%3E%3Cstop offset='100%25' stop-color='%2322d3ee'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpolygon points='50,12 88,82 66,82 50,46 34,82 12,82' fill='url(%23cyberGradFav)' opacity='0.9'/%3E%3Cpolygon points='50,88 22,40 78,40' fill='url(%23cyberGradFav)' opacity='0.25'/%3E%3Cpolygon points='50,46 38,72 62,72' fill='%23030712'/%3E%3Cpolygon points='50,54 44,66 56,66' fill='url(%23cyberGradFav)'/%3E%3C/svg%3E">
 
 <!-- Stable UMD Supabase Distribution loaded with CORS enabled -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js" crossorigin="anonymous"></script>
@@ -349,7 +349,7 @@ textarea.c-ta::placeholder{color:var(--muted);}
 <body>
 
 <!-- LOADING SCREEN -->
-<div id="loadingScreen" style="display:none;">
+<div id="loadingScreen" style="display:flex;"> <!-- UI FIX: Loading screen active by default, hidden upon initialization -->
   <div class="loading-icon">
     <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
       <defs>
@@ -371,7 +371,7 @@ textarea.c-ta::placeholder{color:var(--muted);}
 </div>
 
 <!-- LANDING -->
-<div id="landing">
+<div id="landing" style="display:none;">
   <nav>
     <div class="logo-mark">
       <svg class="logo-svg" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -546,7 +546,7 @@ textarea.c-ta::placeholder{color:var(--muted);}
         <div class="input-wrap">
           <textarea class="c-ta" id="c-input" placeholder="Ask AuraLearn anything academic..." rows="1"
             onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
-          <button class="s-btn" id="s-btn" onclick="sendMsg()">➤</button>
+          <button class="s-btn" id="s-btn" onclick="handleInputControlClick()">➤</button>
         </div>
         <div class="inp-hint">Enter to send · Shift+Enter for new line</div>
       </div>
@@ -640,6 +640,7 @@ function renderStaticErrorLayout(title, detail) {
 }
 
 function renderLandingLayout() {
+    hideLoading();
     document.getElementById('chatApp').style.display = 'none';
     document.getElementById('landing').style.display = 'block';
 }
@@ -706,6 +707,7 @@ async function emailAuth(){
 }
 
 function loginUser(u){
+  hideLoading();
   closeModal();
   document.getElementById('landing').style.display='none';
   document.getElementById('chatApp').style.display='flex';
