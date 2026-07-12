@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AuraLearn AI - Premium Study Hub</title>
     <!-- Inline SVG Favicon containing the custom Neon Cyber Geometric Symbol -->
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIiBmaWxsPSJub25lIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImN5YmVyR3JhZGllbnQiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiM2MzY2ZjEiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMyMmQzZWUiLz48L2xpbmVhckdyYWRpZW50PjxmaWx0ZXIgaWQ9Imdsb3ciIHg9Ii0yMCUiIHk9Ii0yMCUiIHdpZHRoPSIxNDAlIiBoZWlnaHQ9IjE0MCUiPjxmZUdhdXNzaWFuQmx1ciBzdGREZXZpYXRpb249IjMiIHJlc3VsdD0iYmx1ciIvPjxmZUNvbXBvc2l0ZSBpbj0iU291cmNlR3JhcGhpYyIgaW4yPSJibHVyIiBvcGVyYXRvcj0ib3ZlciIvPjwvZmlsdGVyPjwvZGVmcz48cG9seWdvbiBwb2ludHM9IjUwLDEyIDg4LDgyIDY2LDgyIDUwLDQ2IDM0LDgyIDEyLDgyIiBmaWxsPSJ1cmwoI2N5YmVyR3JhZGllbnQpIiBvcGFjaXR5PSIwLjkiIGZpbHRlcj0idXJsKCNnbG93KSIvPjxwb2x5Z29uIHBvaW50cz0iNTAsODggMjIsNDAgNzgsNDAiZmlsbD0idXJsKCNjeWJlckdyYWRpZW50KSIgb3BhY2l0eT0iMC4yNSIvPjxwb2x5Z29uIHBvaW50cz0iNTAsNDYgMzgsNzIgNjIsNzIiIGZpbGw9IiMwMzA3MTIiLz48cG9seWdvbiBwb2ludHM9IjUwLDU0IDQ0LDY2IDU2LDY2IiBmaWxsPSJ1cmwoI2N5YmVyR3JhZGllbnQpIi8+PC9zdmc+">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIiBmaWxsPSJub25lIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImN5YmVyR3JhZGllbnQiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiM2MzY2ZjEiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMyMmQzZWUiLz48L2xpbmVhckdyYWRpZW50PjxmaWx0ZXIgaWQ9Imdsb3ciIHg9Ii0yMCUiIHk9Ii0yMCUiIHdpZHRoPSIxNDAlIiBoZWlnaHQ9IjE0MCUiPjxmZUdhdXNzaWFuQmx1ciBzdGREZXZpYXRpb249IjMiIHJlc3VsdD0iYmx1ciIvPjxmZUNvbXBvc2l0ZSBpbj0iU291cmNlR3JhcGhpYyIgaW4yPSJibHVyIiBvcGVyYXRvcj0ib3ZlciIvPjwvZmlsdGVyPjwvZGVmcz48cG9seWdvbiBwb2ludHM9IjUwLDEyIDg4LDgyIDY2LDgyIDUwLDQ2IDM0LDgyIDEyLDgyIiBmaWxsPSJ1cmwoI2N5YmVyR3JhZGllbnQpIiBvcGFjaXR5PSIwLjkiIGZpbHRlcj0idXJsKCNnbG93KSIvPjxwb2x5Z29uIHBvaW50cz0iNTAsODggMjIsNDAgNzgsNDAiZmlsbD0idXJsKCNjeWJlckdyYWRpZW50KSIgb3BhY2l0eT0iMC4yNSIvPjxwb2x5Z29uIHBvaW50cz0iNTAsNDYgMzgsNzIgNjIsNzIiIGZpbGw9IiMwMzA3MTIiLz48cG9seWdvbiBwb2ludHM9IjUwLDU0IDQ0LD6NiA1Niw2NiIgZmlsbD0idXJsKCNjeWJlckdyYWRpZW50KSIvPjwvc3ZnPg==">
     
     <!-- Supabase Client Library -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -64,13 +64,13 @@
             letter-spacing: -0.5px;
             background: linear-gradient(135deg, #a5b4fc 0%, #22d3ee 100%);
             -webkit-background-clip: text;
-            background-clip: text; /* Fixes VS Code compatibility warning */
+            background-clip: text;
             -webkit-text-fill-color: transparent;
         }
         .landing-card p {
-            font-size: 1.125rem; /* 18px size for better readability */
+            font-size: 1.125rem;
             line-height: 1.6;
-            color: #e2e8f0; /* Balanced high-contrast text color */
+            color: #e2e8f0;
             font-weight: 400;
             margin-bottom: 8px;
         }
@@ -211,7 +211,7 @@
         }
         .top-title-block { display: flex; flex-direction: column; gap: 4px; }
         .top-bar h2 { font-size: 16px; font-weight: 600; color: #ffffff; display: flex; align-items: center; gap: 8px; }
-        .top-bar p { font-size: 12px; color: #9CA3AF; } /* Dimmed to #9CA3AF secondary gray */
+        .top-bar p { font-size: 12px; color: #9CA3AF; }
         .live-pill { display: flex; align-items: center; gap: 6px; background-color: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.15); padding: 4px 10px; border-radius: 12px; font-size: 11.5px; color: #34d399; font-weight: 600; }
         .live-dot { width: 6px; height: 6px; background-color: #34d399; border-radius: 50%; box-shadow: 0 0 8px #34d399; }
         
@@ -262,7 +262,7 @@
             align-items: center;
             background-color: rgba(17, 24, 39, 0.7);
             border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 16px; /* Matched to quick start card radius */
+            border-radius: 16px;
             padding: 4px;
             transition: border-color 0.15s ease;
         }
@@ -277,13 +277,13 @@
             font-size: 14px;
             color: #ffffff;
             outline: none;
-            padding-right: 140px; /* Secure padding prevents text sliding beneath button */
+            padding-right: 140px;
         }
         .btn-input-control {
             position: absolute;
             right: 8px;
             top: 50%;
-            transform: translateY(-50%); /* Vertically centered */
+            transform: translateY(-50%);
             background: linear-gradient(135deg, #6366f1 0%, #4338ca 100%);
             color: #ffffff;
             border: none;
@@ -299,7 +299,6 @@
         }
         .btn-input-control:hover { filter: brightness(1.1); }
         
-        /* Animated Pulse Ring for Stopped Streams */
         .pulse-dot {
             width: 8px;
             height: 8px;
@@ -319,7 +318,6 @@
 <div id="landing-view" class="view-pane">
     <div class="landing-card">
         <div class="hero-logo-box">
-            <!-- Customized Neon Cyber Geometric Symbol (Overlapping A and Delta Prism) -->
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="54" height="54" fill="none">
                 <defs>
                     <linearGradient id="prismGrad" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -406,7 +404,8 @@ const SUPABASE_URL = "{{ supabase_url }}";
 const SUPABASE_ANON_KEY = "{{ supabase_anon_key }}";
 
 let supabase = null;
-if (SUPABASE_URL && SUPABASE_ANON_KEY) {
+// Defensive check preventing crashing when CDN script loads are slow or missing
+if (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase) {
     supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 }
 
@@ -414,12 +413,19 @@ let activeSessionsList = [];
 let currentActiveSessionUUID = null;
 let currentSessionToken = null;
 
-// Streaming controller tracking states
 let activeStreamAbortController = null;
 let isStreamingResponseActive = false;
 
-// 1. Google OAuth Router Routing Lifecycles
-if (supabase) {
+// Unified App Initialization (Removes DOMContentLoaded Event Race Conditions)
+initApplicationSequence();
+
+async function initApplicationSequence() {
+    if (!supabase) {
+        renderStaticErrorLayout("Configuration Keys Missing", "Please configure SUPABASE_URL and SUPABASE_ANON_KEY inside Vercel Dashboard Settings.");
+        return;
+    }
+
+    // Bind Active Session listeners
     supabase.auth.onAuthStateChange((event, session) => {
         if (event === 'SIGNED_IN' || event === 'USER_UPDATED') {
             if (session) {
@@ -432,7 +438,7 @@ if (supabase) {
         }
     });
 
-    window.addEventListener('DOMContentLoaded', async () => {
+    try {
         const { data: { session } } = await supabase.auth.getSession();
         if (session) {
             currentSessionToken = session.access_token;
@@ -440,11 +446,18 @@ if (supabase) {
         } else {
             renderLandingLayout();
         }
-    });
-} else {
-    document.addEventListener("DOMContentLoaded", () => {
-        document.body.innerHTML = `<div style="text-align:center; padding: 40px; color:#ef4444;"><h3>Configuration Error:</h3><p>Supabase variables missing in backend template configuration parameters.</p></div>`;
-    });
+    } catch (err) {
+        console.error("Session fetch failure:", err);
+        renderLandingLayout();
+    }
+}
+
+function renderStaticErrorLayout(title, detail) {
+    document.body.innerHTML = `
+        <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:100vh; padding:24px; text-align:center;">
+            <h2 style="color:#ef4444; font-size:24px; font-weight:700; margin-bottom:12px;">${title}</h2>
+            <p style="color:#94a3b8; font-size:15px; max-width:480px; line-height:1.6;">${detail}</p>
+        </div>`;
 }
 
 function renderLandingLayout() {
@@ -483,7 +496,6 @@ function appendAuthHeader(headers = {}) {
     };
 }
 
-// 2. Load Rooms
 async function syncUserSessionsFromDB() {
     try {
         const response = await fetch('/chat/sessions', {
@@ -578,7 +590,6 @@ async function switchSessionScope(id, title) {
     }
 }
 
-// 4. Streaming Execution State & Abort Controllers
 function handleInputControlClick() {
     if (isStreamingResponseActive) {
         stopTokenGenerationStream();
