@@ -4,11 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AuraLearn AI - Premium Study Hub</title>
-    <!-- Inline SVG Favicon containing the custom Neon Cyber Geometric Symbol -->
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIiBmaWxsPSJub25lIj48ZGVmcz48bGluZWFyR3JhZGllbnQgaWQ9ImN5YmVyR3JhZGllbnQiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPjxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiM2MzY2ZjEiLz48c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMyMmQzZWUiLz48L2xpbmVhckdyYWRpZW50PjxmaWx0ZXIgaWQ9Imdsb3ciIHg9Ii0yMCUiIHk9Ii0yMCUiIHdpZHRoPSIxNDAlIiBoZWlnaHQ9IjE0MCUiPjxmZUdhdXNzaWFuQmx1ciBzdGREZXZpYXRpb249IjMiIHJlc3VsdD0iYmx1ciIvPjxmZUNvbXBvc2l0ZSBpbj0iU291cmNlR3JhcGhpYyIgaW4yPSJibHVyIiBvcGVyYXRvcj0ib3ZlciIvPjwvZmlsdGVyPjwvZGVmcz48cG9seWdvbiBwb2ludHM9IjUwLDEyIDg4LDgyIDY2LDgyIDUwLDQ2IDM0LDgyIDEyLDgyIiBmaWxsPSJ1cmwoI2N5YmVyR3JhZGllbnQpIiBvcGFjaXR5PSIwLjkiIGZpbHRlcj0idXJsKCNnbG93KSIvPjxwb2x5Z29uIHBvaW50cz0iNTAsODggMjIsNDAgNzgsNDAiZmlsbD0idXJsKCNjeWJlckdyYWRpZW50KSIgb3BhY2l0eT0iMC4yNSIvPjxwb2x5Z29uIHBvaW50cz0iNTAsNDYgMzgsNzIgNjIsNzIiIGZpbGw9IiMwMzA3MTIiLz48cG9seWdvbiBwb2ludHM9IjUwLDU0IDQ0LD6NiA1Niw2NiIgZmlsbD0idXJsKCNjeWJlckdyYWRpZW50KSIvPjwvc3ZnPg==">
     
-    <!-- Supabase Client Library -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- Global Diagnostic Error Boundary -->
+    <script>
+        window.addEventListener('error', function(e) {
+            document.body.innerHTML = `
+                <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:100vh; padding:24px; text-align:center; font-family:monospace; background-color:#030712; color:#ef4444;">
+                    <h2 style="font-size:20px; font-weight:700; margin-bottom:12px;">JavaScript Runtime Exception Caught</h2>
+                    <p style="color:#94a3b8; font-size:14px; max-width:600px; line-height:1.6; background-color:rgba(255,255,255,0.02); padding:16px; border-radius:8px; border:1px solid rgba(239,68,68,0.2);">${e.message}</p>
+                    <p style="color:#64748b; font-size:12px; margin-top:12px;">File: ${e.filename || 'External CDN Script'} | Line: ${e.lineno || 'N/A'}</p>
+                </div>`;
+        });
+    </script>
+
+    <!-- URL-Encoded SVG Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' fill='none'%3E%3Cdefs%3E%3ClinearGradient id='cyberGradFav' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%236366f1'/%3E%3Cstop offset='100%25' stop-color='%2322d3ee'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpolygon points='50,12 88,82 66,82 50,46 34,82 12,82' fill='url(%23cyberGradFav)' opacity='0.9'/%3E%3Cpolygon points='50,88 22,40 78,40' fill='url(%23cyberGradFav)' opacity='0.25'/%3E%3Cpolygon points='50,46 38,72 62,72' fill='%23030712'/%3E%3Cpolygon points='50,54 44,66 56,66' fill='url(%23cyberGradFav)'/%3E%3C/svg%3E">
+    
+    <!-- Stable UMD Supabase Distribution loaded with CORS enabled -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js" crossorigin="anonymous"></script>
     
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -403,10 +416,17 @@
 const SUPABASE_URL = "{{ supabase_url }}";
 const SUPABASE_ANON_KEY = "{{ supabase_anon_key }}";
 
-let supabase = null;
-// Defensive check preventing crashing when CDN script loads are slow or missing
-if (SUPABASE_URL && SUPABASE_ANON_KEY && window.supabase) {
-    supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+let supabaseClient = null;
+
+// Hardened structural validation checks (Ensures that malformed/empty config strings never crash the client)
+const isUrlValid = SUPABASE_URL && (SUPABASE_URL.startsWith('http://') || SUPABASE_URL.startsWith('https://'));
+
+if (isUrlValid && SUPABASE_ANON_KEY && window.supabase) {
+    try {
+        supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    } catch (err) {
+        console.error("Supabase client initialization failed:", err);
+    }
 }
 
 let activeSessionsList = [];
@@ -416,17 +436,21 @@ let currentSessionToken = null;
 let activeStreamAbortController = null;
 let isStreamingResponseActive = false;
 
-// Unified App Initialization (Removes DOMContentLoaded Event Race Conditions)
-initApplicationSequence();
+// DOM Ready-state initialisation check wrapper
+if (document.readyState === "complete" || document.readyState === "interactive") {
+    initApplicationSequence();
+} else {
+    window.addEventListener("DOMContentLoaded", initApplicationSequence);
+}
 
 async function initApplicationSequence() {
-    if (!supabase) {
-        renderStaticErrorLayout("Configuration Keys Missing", "Please configure SUPABASE_URL and SUPABASE_ANON_KEY inside Vercel Dashboard Settings.");
+    if (!supabaseClient) {
+        renderStaticErrorLayout("Configuration Keys Missing or Invalid", "Please configure a valid SUPABASE_URL (starting with https://) and SUPABASE_ANON_KEY inside Vercel Dashboard Settings.");
         return;
     }
 
     // Bind Active Session listeners
-    supabase.auth.onAuthStateChange((event, session) => {
+    supabaseClient.auth.onAuthStateChange((event, session) => {
         if (event === 'SIGNED_IN' || event === 'USER_UPDATED') {
             if (session) {
                 currentSessionToken = session.access_token;
@@ -439,7 +463,7 @@ async function initApplicationSequence() {
     });
 
     try {
-        const { data: { session } } = await supabase.auth.getSession();
+        const { data: { session } } = await supabaseClient.auth.getSession();
         if (session) {
             currentSessionToken = session.access_token;
             renderDashboardLayout(session.user);
@@ -473,7 +497,7 @@ function renderDashboardLayout(user) {
 }
 
 async function initiateGoogleOAuthFlow() {
-    await supabase.auth.signInWithOAuth({
+    await supabaseClient.auth.signInWithOAuth({
         provider: 'google',
         options: {
             redirectTo: window.location.origin
@@ -482,7 +506,7 @@ async function initiateGoogleOAuthFlow() {
 }
 
 async function triggerClientSignOut() {
-    await supabase.auth.signOut();
+    await supabaseClient.auth.signOut();
 }
 
 function appendAuthHeader(headers = {}) {
