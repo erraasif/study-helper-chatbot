@@ -33,7 +33,8 @@ Rules you NEVER break:
 def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(security)) -> dict:
     token = credentials.credentials
     supabase_url = os.getenv("SUPABASE_URL")
-    supabase_key = os.getenv("SUPABASE_KEY")
+    # Dynamic fallback check: accommodates both Vercel and local environment key names [5]
+    supabase_key = os.getenv("SUPABASE_ANON_KEY") or os.getenv("SUPABASE_KEY")
     if not supabase_url or not supabase_key:
         raise HTTPException(status_code=500, detail="Supabase credentials missing.")
     try:
@@ -58,7 +59,7 @@ def validate_input(message: str) -> bool:
 
 async def stream_response(user_message, temp, session_id, token, user_id):
     supabase_url = os.getenv("SUPABASE_URL")
-    supabase_key = os.getenv("SUPABASE_KEY")
+    supabase_key = os.getenv("SUPABASE_ANON_KEY") or os.getenv("SUPABASE_KEY")
     client: Client = create_client(supabase_url, supabase_key)
     client.postgrest.auth(token)
     full_reply = ""
@@ -73,6 +74,7 @@ async def stream_response(user_message, temp, session_id, token, user_id):
             yield f"data: {json.dumps({'error': 'AI service not available.'})}\n\n"
             return
 
+        # Fetch ordered message context from messages table [2]
         history_res = client.table("messages")\
             .select("role", "content")\
             .eq("conversation_id", session_id)\
@@ -107,6 +109,7 @@ async def stream_response(user_message, temp, session_id, token, user_id):
         yield f"data: {json.dumps({'error': str(err)})}\n\n"
 
     finally:
+        # Resilient persistence writes even if stream connection drops [5]
         if user_message or full_reply:
             try:
                 client.table("messages").insert({
@@ -133,13 +136,14 @@ async def load_dashboard(request: Request):
         context={
             "request": request,
             "supabase_url": os.getenv("SUPABASE_URL", ""),
-            "supabase_anon_key": os.getenv("SUPABASE_KEY", "")
+            "supabase_anon_key": os.getenv("SUPABASE_ANON_KEY") or os.getenv("SUPABASE_KEY") or ""
         }
     )
 
 @app.get("/chat/sessions")
 async def fetch_sessions(user_data: dict = Depends(get_current_user)):
-    client: Client = create_client(os.getenv("SUPABASE_URL"), os.getenv("SUPABASE_KEY"))
+    supabase_key = os.getenv("SUPABASE_ANON_KEY") or os.getenv("SUPABASE_KEY")
+    client: Client = create_client(os.getenv("SUPABASE_URL"), supabase_key)
     client.postgrest.auth(user_data["token"])
     try:
         res = client.table("conversations")\
@@ -153,7 +157,8 @@ async def fetch_sessions(user_data: dict = Depends(get_current_user)):
 
 @app.post("/chat/sessions")
 async def create_session(payload: NewSessionPayload, user_data: dict = Depends(get_current_user)):
-    client: Client = create_client(os.getenv("SUPABASE_URL"), os.getenv("SUPABASE_KEY"))
+    supabase_key = os.getenv("SUPABASE_ANON_KEY") or os.getenv("SUPABASE_KEY")
+    client: Client = create_client(os.getenv("SUPABASE_URL"), supabase_key)
     client.postgrest.auth(user_data["token"])
     try:
         res = client.table("conversations").insert({
@@ -166,7 +171,8 @@ async def create_session(payload: NewSessionPayload, user_data: dict = Depends(g
 
 @app.get("/chat/history/{session_id}")
 async def fetch_history(session_id: str, user_data: dict = Depends(get_current_user)):
-    client: Client = create_client(os.getenv("SUPABASE_URL"), os.getenv("SUPABASE_KEY"))
+    supabase_key = os.getenv("SUPABASE_ANON_KEY") or os.getenv("SUPABASE_KEY")
+    client: Client = create_client(os.getenv("SUPABASE_URL"), supabase_key)
     client.postgrest.auth(user_data["token"])
     try:
         res = client.table("messages")\
