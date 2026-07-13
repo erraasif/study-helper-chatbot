@@ -33,7 +33,6 @@ Rules you NEVER break:
 def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(security)) -> dict:
     token = credentials.credentials
     supabase_url = os.getenv("SUPABASE_URL")
-    # Dynamic fallback check: accommodates both Vercel and local environment key names [5]
     supabase_key = os.getenv("SUPABASE_ANON_KEY") or os.getenv("SUPABASE_KEY")
     if not supabase_url or not supabase_key:
         raise HTTPException(status_code=500, detail="Supabase credentials missing.")
