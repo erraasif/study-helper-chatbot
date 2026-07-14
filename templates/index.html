@@ -4,17 +4,10 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>AuraLearn — Study Smarter</title>
-
-<!-- Global Diagnostic Error Boundary -->
 <script>
-    window.addEventListener('error', function(e) {
-        document.body.innerHTML = `
-            <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:100vh; padding:24px; text-align:center; font-family:monospace; background-color:#030712; color:#ef4444;">
-                <h2 style="font-size:20px; font-weight:700; margin-bottom:12px;">JavaScript Runtime Exception Caught</h2>
-                <p style="color:#94a3b8; font-size:14px; max-width:600px; line-height:1.6; background-color:rgba(255,255,255,0.02); padding:16px; border-radius:8px; border:1px solid rgba(239,68,68,0.2);">${e.message}</p>
-                <p style="color:#64748b; font-size:12px; margin-top:12px;">File: ${e.filename || 'External CDN Script'} | Line: ${e.lineno || 'N/A'}</p>
-            </div>`;
-    });
+window.addEventListener('error',function(e){
+  document.body.innerHTML=`<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100vh;padding:24px;text-align:center;font-family:monospace;background:#030712;color:#ef4444;"><h2 style="font-size:20px;font-weight:700;margin-bottom:12px;">Runtime Error</h2><p style="color:#94a3b8;font-size:14px;max-width:600px;line-height:1.6;background:rgba(255,255,255,0.02);padding:16px;border-radius:8px;border:1px solid rgba(239,68,68,0.2);">${e.message}</p></div>`;
+});
 </script>
 
 <!-- URL-Encoded Glowing Graduation Cap & Glowing Tassel Dot Favicon [1, 2] -->
@@ -25,7 +18,7 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 
-/* ── THEME TOKENS (Opaque Contrast variables in Light mode to prevent blur artifacts) ── */
+/* ── THEME TOKENS ── */
 [data-theme="dark"]{
   --bg:#0A0612;--surface:#100D1A;--surface2:#18142A;--surface3:#221D38;
   --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.13);
@@ -62,7 +55,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(
   -webkit-backdrop-filter: none !important;
 }
 
-/* ── THEME TOGGLE ── */
+/* ── HIGH-CLASS TOGGLE INTERACTION ── */
 .theme-toggle{
   width:44px;height:24px;border-radius:100px;
   background:var(--surface2);
@@ -112,7 +105,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:14px 48px;display:fl
 .btn-primary{padding:8px 20px;background:linear-gradient(135deg,var(--accent),#7C3AED);border:none;color:white;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;transition:opacity 0.2s;}
 .btn-primary:hover{opacity:0.85;}
 
-/* ── HERO ── */
+/* ── HERO (Aesthetic GenZ Branding) ── */
 .hero{min-height:100vh;display:flex;flex-direction:row;align-items:center;justify-content:space-between;padding:140px 48px 80px;position:relative;overflow:hidden;gap:48px;max-width:1200px;margin:0 auto;}
 .hero-content{flex:1.1;display:flex;flex-direction:column;align-items:flex-start;}
 .hero-preview{flex:0.9;display:flex;align-items:center;justify-content:center;max-width:480px;}
@@ -127,7 +120,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:14px 48px;display:fl
 [data-theme="light"] .hero p{color:#4B5563;}
 .hero-btns{display:flex;gap:14px;}
 .btn-hero{padding:14px 32px;background:linear-gradient(135deg,var(--accent),#7C3AED);border:none;color:white;border-radius:12px;font-size:16px;font-weight:700;cursor:pointer;transition:all 0.25s;display:flex;align-items:center;gap:8px;}
-.btn-hero:hover{transform:translateY(-2px);box-shadow:0 14px 40px rgba(159,122,234,0.4);}
+.btn-hero:hover{transform:translateY(-2px);box-shadow:0 14px 40px rgba(159,122,234,0.45);}
 .btn-hero-outline{padding:14px 32px;background:transparent;border:1px solid var(--border2);color:var(--text);border-radius:12px;font-size:16px;cursor:pointer;transition:all 0.2s;}
 .btn-hero-outline:hover{border-color:var(--accent);background:rgba(159,122,234,0.06);}
 
@@ -549,14 +542,14 @@ textarea.c-ta::placeholder{color:var(--muted);}
     <div class="steps">
       <div class="step"><div class="step-num">1</div><div><h3>Sign In with Google</h3><p>One click and you're in. No passwords. Secured by Google — fast, safe, simple.</p></div></div>
       <div class="step"><div class="step-num">2</div><div><h3>Drop a study query</h3><p>Explain algorithms, test code, or structure study guides in real-time with streaming answers.</p></div></div>
-      <div class="step"><div class="step-num">3</div><div><h3>Track your topic mastery</h3><p>All sessions saved. Metric targets are dynamically tracked to guarantee long-term retention.</p></div></div>
+      <div class="step"><div class="step-num">3</div><div><h3>Come back anytime</h3><p>All sessions saved. Metric targets are dynamically tracked to guarantee long-term retention.</p></div></div>
     </div>
   </div></section>
 
   <section class="cta-band">
     <h2>Ready to level up?</h2>
     <p>Your academic companion is waiting. Start learning smarter today.</p>
-    <button class="btn-hero" onclick="openModal('signup')">✦ Lock In Free</button>
+    <button class="btn-hero" onclick="openModal('signup')">✦ Get started — it's free</button>
   </section>
   <footer><p>© 2026 AuraLearn — Intelligent Academic Companion</p></footer>
 </div>
@@ -690,7 +683,7 @@ textarea.c-ta::placeholder{color:var(--muted);}
       <div class="panel-card">
         <div class="panel-title-text" style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
           <span>Course Enrollment</span>
-          <!-- High-Contrast Close Handle [5] -->
+          <!-- High-Contrast Close Handle -->
           <button onclick="toggleRightPanel()" style="background: transparent; border: none; color: var(--muted2); font-size: 18px; cursor: pointer; font-weight: bold; padding: 2px 8px; line-height: 1;" title="Collapse Panel">×</button>
         </div>
         <div class="active-profile-card">
@@ -984,7 +977,7 @@ async function emailAuth(){
        }
     }
     if(result.error) {
-       // OAuth Identity Gatekeeper: Intercept attempts to sign up/login with already registered Google accounts [1]
+       // OAuth Identity Gatekeeper
        if (result.error.message && (result.error.message.includes("OAuth") || result.error.message.includes("already registered") || result.error.message.includes("another provider"))) {
            alert("This email is already registered through Google Auth. Please click 'Continue with Google' to sign in safely.");
        } else {
