@@ -10,7 +10,7 @@ window.addEventListener('error',function(e){
 });
 </script>
 
-<!-- URL-Encoded Glowing Tech Cap & Floating Tassel Dot Favicon [1, 2] -->
+<!-- URL-Encoded SVG Favicon -->
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' fill='none'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%239F7AEA'/%3E%3Cstop offset='100%25' stop-color='%235EEAD4'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpolygon points='50,22 88,40 50,58 12,40' fill='url(%23g)' opacity='0.95'/%3E%3Cpath d='M28,48 L28,64 Q50,76 72,64 L72,48' fill='none' stroke='url(%23g)' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M50,40 Q30,46 22,54 L22,70' fill='none' stroke='url(%23g)' stroke-width='3' stroke-linecap='round'/%3E%3Ccircle cx='22' cy='70' r='5' fill='url(%23g)'/%3E%3C/svg%3E">
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js" crossorigin="anonymous"></script>
@@ -23,7 +23,7 @@ window.addEventListener('error',function(e){
   --bg:#0A0612;--surface:#100D1A;--surface2:#18142A;--surface3:#221D38;
   --border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.13);
   --text:#EEE8FF;--muted:#6B7280;--muted2:#9CA3AF;--text-inv:#0A0612;
-  --card-bg:rgba(24,20,42,0.85);--input-bg:#18142A;
+  --card-bg:rgba(24,20,42,0.8);--input-bg:#18142A;
   --shadow:rgba(0,0,0,0.4);
 }
 [data-theme="light"]{
@@ -47,11 +47,10 @@ window.addEventListener('error',function(e){
 html{scroll-behavior:smooth;}
 body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;transition:background 0.3s,color 0.3s;}
 
-/* Drop Blur Filters completely in Light Mode [5] */
+/* Drop Blur Filters completely in Light Mode to eliminate rendering artifacts [5] */
 [data-theme="light"] .prism-layer, 
 [data-theme="light"] .landing-card, 
-[data-theme="light"] .mock-card,
-[data-theme="light"] #star-tooltip,
+[data-theme="light"] .cognitive-core-wrapper, 
 [data-theme="light"] nav {
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
@@ -68,7 +67,7 @@ body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(
   pointer-events: none;
 }
 
-/* ── ADVANCED TACTILE THEME TOGGLE [5] ── */
+/* ── TACTILE THEME TOGGLE [5] ── */
 .theme-toggle{
   width:44px;height:24px;border-radius:100px;
   background:var(--surface2);
@@ -137,67 +136,73 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:14px 48px;display:fl
 .btn-hero-outline{padding:14px 32px;background:transparent;border:1px solid var(--border2);color:var(--text);border-radius:12px;font-size:16px;cursor:pointer;transition:all 0.2s;}
 .btn-hero-outline:hover{border-color:var(--accent);background:rgba(159,122,234,0.06);}
 
-/* ── HIGH-LEVEL COGNITIVE COMPASS (Specification 1: No Chat Screenshots) ── */
-.mock-card{
-  width:100%;
-  background:var(--card-bg);
-  border:1px solid rgba(159,122,234,0.22);
-  border-radius:24px;
-  padding:24px;
-  box-shadow:0 30px 80px var(--shadow), 0 0 60px rgba(159,122,234,0.1);
-  transform:perspective(800px) rotateY(-8deg) rotateX(4deg);
-  transition:all 0.5s ease-out;
-  animation:card-float 6s ease-in-out infinite;
+/* ── 3D COGNITIVE COMPASS CANVAS ── */
+.cognitive-core-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-@keyframes card-float{
-  0%,100%{transform:perspective(800px) rotateY(-8deg) rotateX(4deg) translateY(0);}
-  50%{transform:perspective(800px) rotateY(-6deg) rotateX(2deg) translateY(-14px);}
+.cognitive-core-svg {
+  width: 100%;
+  height: 100%;
+  animation: float-core 6s ease-in-out infinite;
 }
-.card-header{
-  display:flex;align-items:center;justify-content:space-between;
-  border-bottom:1px solid var(--border);
-  padding-bottom:14px;margin-bottom:16px;
+.halo-ring {
+  transform-origin: center;
+  animation: rotate-clockwise 20s linear infinite;
 }
-.card-user{display:flex;align-items:center;gap:10px;}
-.card-av{
-  width:34px;height:34px;border-radius:50%;
-  background:linear-gradient(135deg,#9F7AEA,#5EEAD4);
-  display:flex;align-items:center;justify-content:center;
-  font-size:13px;font-weight:700;color:white;
+.halo-ring-inner {
+  transform-origin: center;
+  animation: rotate-counter-clockwise 15s linear infinite;
 }
-.card-name{font-size:13px;font-weight:700;color:var(--text);}
-.card-status{font-size:11px;color:var(--muted2);}
-.live-chip{
-  display:flex;align-items:center;gap:5px;
-  background:rgba(52,211,153,0.1);
-  border:1px solid rgba(52,211,153,0.2);
-  padding:4px 10px;border-radius:100px;
-  font-size:11px;color:#34D399;font-weight:600;
+.core-prism-group {
+  transform-origin: center;
+  animation: pulse-glow-core 4s ease-in-out infinite;
 }
-.live-dot{width:5px;height:5px;background:#34D399;border-radius:50%;box-shadow:0 0 6px #34D399;}
-.hologram-grid{
-  height:140px;background:var(--surface3);border:1px solid var(--border);border-radius:14px;
-  display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;
-  margin-bottom:16px;
-}
-.hologram-circle{
-  width:80px;height:80px;border-radius:50%;
-  border:2px dashed var(--accent);
-  animation:spin-ring 12s linear infinite;
-  display:flex;align-items:center;justify-content:center;
-}
-@keyframes spin-ring { from {transform:rotate(0deg);} to {transform:rotate(360deg);} }
-.compass-cap {
+.core-particle {
   position: absolute;
-  top: 50%; left: 50%; transform: translate(-50%, -50%);
-  animation: bob-cap 3s ease-in-out infinite;
+  width: 8px;
+  height: 8px;
+  background: var(--teal);
+  border-radius: 50%;
+  box-shadow: 0 0 12px var(--teal);
 }
-@keyframes bob-cap { 0%,100% {transform: translate(-50%, -52%);} 50% {transform: translate(-50%, -48%);} }
+.core-particle.p1 { animation: orbit1 8s linear infinite; }
+.core-particle.p2 { background: var(--accent); box-shadow: 0 0 12px var(--accent); animation: orbit2 10s linear infinite; }
+.core-particle.p3 { background: var(--pink); box-shadow: 0 0 12px var(--pink); animation: orbit3 12s linear infinite; }
 
-.metric-vitals{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-.metric-box{background:var(--surface2);border:1px solid var(--border);padding:12px;border-radius:12px;display:flex;flex-direction:column;gap:4px;}
-.metric-title{font-size:10px;color:var(--muted);text-transform:uppercase;font-weight:700;}
-.metric-val{font-size:14px;font-weight:800;color:var(--text);}
+@keyframes float-core {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-15px) rotate(2deg); }
+}
+@keyframes rotate-clockwise {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+@keyframes rotate-counter-clockwise {
+  from { transform: rotate(360deg); }
+  to { transform: rotate(0deg); }
+}
+@keyframes pulse-glow-core {
+  0%, 100% { filter: drop-shadow(0 0 15px rgba(159,122,234,0.3)); opacity: 0.85; }
+  50% { filter: drop-shadow(0 0 35px rgba(94,234,212,0.7)); opacity: 1; }
+}
+@keyframes orbit1 {
+  0% { transform: rotate(0deg) translateX(120px) rotate(0deg); }
+  100% { transform: rotate(360deg) translateX(120px) rotate(-360deg); }
+}
+@keyframes orbit2 {
+  0% { transform: rotate(120deg) translateX(100px) rotate(-120deg); }
+  100% { transform: rotate(480deg) translateX(100px) rotate(-480deg); }
+}
+@keyframes orbit3 {
+  0% { transform: rotate(240deg) translateX(140px) rotate(-240deg); }
+  100% { transform: rotate(600deg) translateX(140px) rotate(-600deg); }
+}
 
 /* Tooltip on star hover */
 #star-tooltip{
@@ -278,7 +283,7 @@ footer p{font-size:13px;color:var(--muted);}
 .m-switch{font-size:13px;color:var(--muted2);margin-top:16px;}
 .m-switch a{color:var(--accent2);cursor:pointer;}
 
-/* ── CHAT APP (3-Panel Design Studio) ── */
+/* ── CHAT APP (Upgraded to 3-Panel Cognitive Design Studio) ── */
 #chatApp{display:none;height:100vh;flex-direction:column;}
 .chat-layout{display:grid;grid-template-columns:260px 1fr 320px;height:100%;}
 @media(max-width:1200px){.chat-layout{grid-template-columns:240px 1fr;}.right-panel{display:none !important;}}
@@ -294,7 +299,7 @@ footer p{font-size:13px;color:var(--muted);}
 .sb-sessions::-webkit-scrollbar{width:2px;}
 .sb-sessions::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px;}
 
-/* Sidebar Session item with custom estimated Mastery Progression indicator and edit/delete actions [5] */
+/* Sidebar Session list item with custom estimated Mastery Progression indicator and edit/delete handles [5] */
 .s-item{padding:9px 11px;border-radius:8px;cursor:pointer;font-size:12px;color:var(--muted2);display:flex;align-items:center;justify-content:space-between;gap:7px;transition:all 0.15s;border:1px solid transparent;overflow:hidden;}
 .s-item-text { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; flex: 1; display: flex; align-items: center; gap: 6px; }
 .s-item:hover{background:var(--surface2);color:var(--text);}
@@ -553,36 +558,41 @@ textarea.c-ta::placeholder{color:var(--muted);}
       </div>
     </div>
     <div class="hero-preview">
-      <div class="hero-prism-canvas">
-        <div class="prism-layer layer-db-status">
-          <h5>Database Monitor</h5>
-          <div class="db-row"><span>Security</span><span style="color:#34d399;">● RLS Active</span></div>
-          <div class="db-row"><span>Schema</span><span>PostgreSQL</span></div>
-          <div class="db-row"><span>Auth</span><span>Supabase JWT</span></div>
-        </div>
-        <div class="prism-layer layer-chat-main">
-          <div class="mock-chat-header">
-            <div class="mock-chat-user">
-              <div class="mock-chat-av">
-                <svg width="18" height="18" viewBox="0 0 100 100" fill="none">
-                  <polygon points="50,22 88,40 50,58 12,40" fill="url(#g)" />
-                  <path d="M28,48 L28,64 Q50,76 72,64 L72,48" fill="none" stroke="url(#g)" stroke-width="5" />
-                  <path d="M50,40 Q30,46 22,54 L22,70" fill="none" stroke="url(#g)" stroke-width="4" />
-                  <circle cx="22" cy="70" r="6" fill="url(#g)" />
-                </svg>
-              </div>
-              <div class="mock-chat-details"><h4>AuraLearn AI</h4><p>Online and ready</p></div>
-            </div>
-            <div class="mock-chat-live"><div class="mock-chat-live-dot"></div>Live</div>
-          </div>
-          <div class="mock-chat-body">
-            <div class="mock-chat-row user-row"><div class="mock-chat-bubble u-bubble">Explain neural networks simply</div></div>
-            <div class="mock-chat-row ai-row"><div class="mock-chat-bubble ai-bubble">Think of it like a team of decision filters — each layer processes clues and passes results forward.</div></div>
-            <div class="mock-chat-row user-row"><div class="mock-chat-bubble u-bubble">Can you save my session?</div></div>
-            <div class="mock-typing"><div class="mock-dot"></div><div class="mock-dot"></div><div class="mock-dot"></div></div>
-          </div>
-        </div>
-        <div class="prism-layer layer-stats"><span>⚡ Groq Inference • 8ms</span></div>
+      <!-- High-Class AuraLearn Cognitive Core (Rotating, glowing futuristic SVG prism with floating particles) [2] -->
+      <div class="cognitive-core-wrapper">
+        <svg class="cognitive-core-svg" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="coreGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#9F7AEA" /> <!-- Electric Purple -->
+              <stop offset="50%" stop-color="#EC4899" /> <!-- Cyber Pink -->
+              <stop offset="100%" stop-color="#5EEAD4" /> <!-- Neon Teal -->
+            </linearGradient>
+            <filter id="coreGlow" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="8" result="blur" />
+              <feComposite in="SourceGraphic" in2="blur" operator="over" />
+            </filter>
+          </defs>
+          <!-- Outer rotating halo -->
+          <circle class="halo-ring" cx="100" cy="100" r="80" stroke="url(#coreGrad)" stroke-width="1.5" stroke-dasharray="10 15" />
+          <!-- Inner rotating dashed ring -->
+          <circle class="halo-ring-inner" cx="100" cy="100" r="60" stroke="url(#coreGrad)" stroke-width="1" stroke-dasharray="5 8" />
+          
+          <!-- Central Glowing Core Graduation Cap [2] -->
+          <g class="core-prism-group" filter="url(#coreGlow)">
+            <!-- Cap top diamond -->
+            <polygon points="100,60 150,80 100,100 50,80" fill="url(#coreGrad)" opacity="0.9" />
+            <!-- Cap base skull -->
+            <path d="M70,90 L70,110 Q100,125 130,110 L130,90" fill="none" stroke="url(#coreGrad)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+            <!-- Tassel -->
+            <path d="M100,80 Q80,86 70,95 L70,115" fill="none" stroke="url(#coreGrad)" stroke-width="2.5" stroke-linecap="round" />
+            <!-- Glowing dot charm -->
+            <circle cx="70" cy="115" r="4.5" fill="url(#coreGrad)" />
+          </g>
+        </svg>
+        <!-- Floating active data particles orbiting the core -->
+        <div class="core-particle p1"></div>
+        <div class="core-particle p2"></div>
+        <div class="core-particle p3"></div>
       </div>
     </div>
   </div>
@@ -644,8 +654,6 @@ textarea.c-ta::placeholder{color:var(--muted);}
     <p class="m-switch" id="m-switch">No account? <a onclick="toggleModal()">Sign up free</a></p>
   </div>
 </div>
-
-<div id="star-tooltip"></div>
 
 <!-- CHAT APP -->
 <div id="chatApp">
@@ -837,7 +845,7 @@ textarea.c-ta::placeholder{color:var(--muted);}
         <div class="panel-title-text">Aesthetic Focus Timer</div>
         <div style="display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 8px 0;">
           <div class="timer-dial" style="font-size: 32px; font-weight: 800; font-family: monospace; letter-spacing: 2px; color: var(--text);">25:00</div>
-          <!-- Sub-actions controls [5] -->
+          <!-- Sub-actions controls -->
           <div style="display: flex; gap: 8px; justify-content: center; font-size: 11px; font-weight: 700; color: var(--muted2);">
             <span onclick="togglePomodoro()" id="pomoControlStart" style="cursor: pointer; text-decoration: underline; color: var(--accent2);">[Start]</span>
             <span onclick="pausePomodoro()" id="pomoControlPause" style="cursor: pointer; text-decoration: underline; display: none;">[Pause]</span>
@@ -892,18 +900,77 @@ let activeStreamAbortController = null;
 const canvas = document.getElementById('constellationCanvas');
 let ctx = null;
 let animationFrameId = null;
-let stars = [
-  { name: "Python", x: 0.25, y: 0.25, baseRadius: 6, pulseOffset: 0 },
-  { name: "Machine Learning", x: 0.75, y: 0.3, baseRadius: 7.5, pulseOffset: 1.5 },
-  { name: "Algorithms", x: 0.48, y: 0.42, baseRadius: 6.5, pulseOffset: 3.0 },
-  { name: "Database Systems", x: 0.22, y: 0.65, baseRadius: 6.0, pulseOffset: 4.5 },
-  { name: "Neural Networks", x: 0.58, y: 0.72, baseRadius: 7.0, pulseOffset: 6.0 },
-  { name: "Web Architecture", x: 0.82, y: 0.58, baseRadius: 6.0, pulseOffset: 7.5 }
+let stars = [];
+const topics = [
+  'Python','Machine Learning','Algorithms','Database','Neural Networks',
+  'Web Dev','Data Structures','Linear Algebra','Statistics','FastAPI',
+  'Git','React','SQL','APIs','Computer Vision','NLP','Recursion',
+  'Big O','Binary Trees','Sorting','Probability','Calculus','OOP','RAG'
 ];
 
-let mouseX = -1000, mouseY = -1000;
-let targetParallaxX = 0, targetParallaxY = 0;
-let currentParallaxX = 0, currentParallaxY = 0;
+class Star {
+  constructor() { this.reset(); }
+  reset() {
+    this.x = Math.random() * window.innerWidth;
+    this.y = Math.random() * window.innerHeight;
+    this.baseR = Math.random() * 2.5 + 1.5;
+    this.r = this.baseR;
+    this.vx = (Math.random() - 0.5) * 0.18;
+    this.vy = (Math.random() - 0.5) * 0.18;
+    this.topic = topics[Math.floor(Math.random() * topics.length)];
+    this.phase = Math.random() * Math.PI * 2;
+    this.speed = Math.random() * 0.02 + 0.01;
+    this.colorIndex = Math.random();
+    this.hovered = false;
+    this.glowSize = 0;
+  }
+  update() {
+    this.x += this.vx; this.y += this.vy;
+    if (this.x < -50) this.x = window.innerWidth + 50; if (this.x > window.innerWidth + 50) this.x = -50;
+    if (this.y < -50) this.y = window.innerHeight + 50; if (this.y > window.innerHeight + 50) this.y = -50;
+    this.phase += this.speed;
+    const dx = this.x - mouseX, dy = this.y - mouseY;
+    const dist = Math.sqrt(dx * dx + dy * dy);
+    this.hovered = dist < 65;
+    if (this.hovered) {
+      this.r = Math.min(this.r + 0.4, 6.5);
+      this.glowSize = Math.min(this.glowSize + 3, 22);
+    } else {
+      this.r = Math.max(this.r - 0.15, this.baseR);
+      this.glowSize = Math.max(this.glowSize - 2, 0);
+    }
+  }
+  draw() {
+    const pulse = Math.sin(this.phase) * 0.5 + 0.5;
+    const purple = [159, 122, 234], teal = [94, 234, 212];
+    const r = Math.round(purple[0] + (teal[0] - purple[0]) * this.colorIndex);
+    const g = Math.round(purple[1] + (teal[1] - purple[1]) * this.colorIndex);
+    const b = Math.round(purple[2] + (teal[2] - purple[2]) * this.colorIndex);
+
+    if (this.glowSize > 0) {
+      const grd = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.glowSize + 15);
+      grd.addColorStop(0, `rgba(${r},${g},${b},0.35)`);
+      grd.addColorStop(1, `rgba(${r},${g},${b},0)`);
+      ctx.beginPath(); ctx.arc(this.x, this.y, this.glowSize + 15, 0, Math.PI * 2);
+      ctx.fillStyle = grd; ctx.fill();
+    }
+
+    const grd2 = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.r * 4);
+    grd2.addColorStop(0, `rgba(${r},${g},${b},${0.45 + pulse * 0.25})`);
+    grd2.addColorStop(1, `rgba(${r},${g},${b},0)`);
+    ctx.beginPath(); ctx.arc(this.x, this.y, this.r * 4, 0, Math.PI * 2);
+    ctx.fillStyle = grd2; ctx.fill();
+
+    ctx.beginPath(); ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(${r},${g},${b},${0.75 + pulse * 0.25})`; ctx.fill();
+  }
+}
+
+function initStars() {
+  stars = [];
+  const count = Math.min(Math.floor(window.innerWidth * window.innerHeight / 19000), 80);
+  for (let i = 0; i < count; i++) stars.push(new Star());
+}
 
 if (canvas) {
   ctx = canvas.getContext('2d');
@@ -912,14 +979,16 @@ if (canvas) {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
   }
-  window.addEventListener('resize', resizeCanvas);
+  window.addEventListener('resize', () => { resizeCanvas(); initStars(); });
   resizeCanvas();
+  initStars();
 
   window.addEventListener('mousemove', (e) => {
     mouseX = e.clientX;
     mouseY = e.clientY;
     targetParallaxX = (mouseX - window.innerWidth / 2) * -0.04;
     targetParallaxY = (mouseY - window.innerHeight / 2) * -0.04;
+    updateTooltip();
   });
 
   window.addEventListener('mouseleave', () => {
@@ -927,7 +996,50 @@ if (canvas) {
     mouseY = -1000;
     targetParallaxX = 0;
     targetParallaxY = 0;
+    document.getElementById('star-tooltip').style.opacity = '0';
   });
+}
+
+function drawConnections() {
+  const maxDist = 160;
+  for (let i = 0; i < stars.length; i++) {
+    for (let j = i + 1; j < stars.length; j++) {
+      const dx = stars[i].x - stars[j].x, dy = stars[i].y - stars[j].y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < maxDist) {
+        const opacity = (1 - dist / maxDist) * 0.25;
+        const grad = ctx.createLinearGradient(stars[i].x, stars[i].y, stars[j].x, stars[j].y);
+        grad.addColorStop(0, `rgba(159,122,234,${opacity})`);
+        grad.addColorStop(1, `rgba(94,234,212,${opacity})`);
+        ctx.beginPath();
+        ctx.moveTo(stars[i].x, stars[i].y);
+        ctx.lineTo(stars[j].x, stars[j].y);
+        ctx.strokeStyle = grad;
+        ctx.lineWidth = 0.8;
+        ctx.stroke();
+      }
+    }
+  }
+}
+
+function updateTooltip() {
+  const tooltip = document.getElementById('star-tooltip');
+  if (!tooltip) return;
+  let hoveredStar = null;
+  let minDist = 65;
+  for (const s of stars) {
+    const dx = s.x - mouseX, dy = s.y - mouseY;
+    const d = Math.sqrt(dx * dx + dy * dy);
+    if (d < minDist) { minDist = d; hoveredStar = s; }
+  }
+  if (hoveredStar) {
+    tooltip.textContent = hoveredStar.topic;
+    tooltip.style.left = (mouseX + 16) + 'px';
+    tooltip.style.top = (mouseY - 10) + 'px';
+    tooltip.style.opacity = '1';
+  } else {
+    tooltip.style.opacity = '0';
+  }
 }
 
 function renderConstellationMap(time) {
@@ -944,70 +1056,14 @@ function renderConstellationMap(time) {
   currentParallaxX += (targetParallaxX - currentParallaxX) * 0.08;
   currentParallaxY += (targetParallaxY - currentParallaxY) * 0.08;
 
+  ctx.save();
+  ctx.translate(currentParallaxX, currentParallaxY);
+  drawConnections();
   stars.forEach(star => {
-    star.drawX = star.x * canvas.width + currentParallaxX;
-    star.drawY = star.y * canvas.height + currentParallaxY;
+    star.update();
+    star.draw();
   });
-
-  for (let i = 0; i < stars.length; i++) {
-    for (let j = i + 1; j < stars.length; j++) {
-      const s1 = stars[i];
-      const s2 = stars[j];
-      const dx = s1.drawX - s2.drawX;
-      const dy = s1.drawY - s2.drawY;
-      const dist = Math.sqrt(dx * dx + dy * dy);
-      
-      if (dist < canvas.width * 0.45) {
-        const grad = ctx.createLinearGradient(s1.drawX, s1.drawY, s2.drawX, s2.drawY);
-        grad.addColorStop(0, '#9F7AEA');
-        grad.addColorStop(1, '#5EEAD4');
-        ctx.strokeStyle = grad;
-        ctx.lineWidth = (1 - dist / (canvas.width * 0.45)) * 1.5;
-        ctx.globalAlpha = (1 - dist / (canvas.width * 0.45)) * 0.35;
-        ctx.beginPath();
-        ctx.moveTo(s1.drawX, s1.drawY);
-        ctx.lineTo(s2.drawX, s2.drawY);
-        ctx.stroke();
-        ctx.globalAlpha = 1.0;
-      }
-    }
-  }
-
-  let hoveredStar = null;
-  stars.forEach(star => {
-    const dx = mouseX - star.drawX;
-    const dy = mouseY - star.drawY;
-    const dist = Math.sqrt(dx * dx + dy * dy);
-    
-    if (dist < 45) {
-      hoveredStar = star;
-    }
-
-    const twinkle = Math.sin(time * 0.004 + star.pulseOffset) * 2;
-    const radius = Math.max(2, star.baseRadius + twinkle);
-
-    ctx.shadowColor = '#9F7AEA';
-    ctx.shadowBlur = 12;
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
-    ctx.beginPath();
-    ctx.arc(star.drawX, star.drawY, radius, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.shadowBlur = 0;
-  });
-
-  if (hoveredStar) {
-    ctx.shadowColor = '#5EEAD4';
-    ctx.shadowBlur = 25;
-    ctx.fillStyle = 'rgba(94, 234, 212, 0.3)';
-    ctx.beginPath();
-    ctx.arc(hoveredStar.drawX, hoveredStar.drawY, hoveredStar.baseRadius * 2.2, 0, Math.PI * 2);
-    ctx.fill();
-
-    ctx.shadowBlur = 0;
-    ctx.fillStyle = '#FFFFFF';
-    ctx.font = 'bold 13px system-ui, sans-serif';
-    ctx.fillText(hoveredStar.name, hoveredStar.drawX + 18, hoveredStar.drawY + 4);
-  }
+  ctx.restore();
 
   animationFrameId = requestAnimationFrame(renderConstellationMap);
 }
@@ -1464,16 +1520,6 @@ async function sendMsg(){
   busy=false; setStreaming(false);
 }
 
-function addMsg(role,content){
-  const el=document.getElementById('msgs');
-  if(role==='user'){
-    el.innerHTML+=`<div class="m-row user"><div class="m-av u-av">👤</div><div class="bubble u-b">${esc(content)}</div></div>`;
-  }else{
-    el.innerHTML+=`<div class="m-row ai"><div class="m-av ai-av"><svg width="14" height="14" viewBox="0 0 100 100" fill="none"><defs><linearGradient id="aig${Date.now()}" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#EEE8FF"/><stop offset="100%" stop-color="#5EEAD4"/></linearGradient></defs><path d="M50,22 88,40 50,58 12,40" fill="url(#g)" opacity="0.95" /><path d="M28,48 L28,64 Q50,76 72,64 L72,48" fill="none" stroke="url(#g)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" /><path d="M50,40 Q30,46 22,54 L22,70" fill="none" stroke="url(#g)" stroke-width="3" stroke-linecap="round" /><circle cx="22" cy="70" r="5" fill="url(#g)" filter="url(#glow)" /></svg></div><div class="bubble ai-b">${fmt(content)}</div></div>`;
-  }
-  scrollBot(true);
-}
-
 // Personalization Profile Name Inline Saving logic [5]
 async function triggerNameRename() {
   const currentName = document.getElementById('sb-fullname').textContent;
@@ -1510,6 +1556,32 @@ async function triggerClientSignOut() {
     } finally {
         hideLoading();
     }
+}
+
+// Multi-line templates refactoring resolves syntax exceptions permanently
+function addMsg(role, content) {
+  const el = document.getElementById('msgs');
+  if (role === 'user') {
+    el.innerHTML += `
+      <div class="m-row user">
+        <div class="m-av u-av">👤</div>
+        <div class="bubble u-b">${esc(content)}</div>
+      </div>`;
+  } else {
+    el.innerHTML += `
+      <div class="m-row ai">
+        <div class="m-av ai-av">
+          <svg width="28" height="28" viewBox="0 0 100 100" fill="none">
+            <polygon points="50,22 88,40 50,58 12,40" fill="url(#g)" opacity="0.95" />
+            <path d="M28,48 L28,64 Q50,76 72,64 L72,48" fill="none" stroke="url(#g)" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M50,40 Q30,46 22,54 L22,70" fill="none" stroke="url(#g)" stroke-width="3" stroke-linecap="round" />
+            <circle cx="22" cy="70" r="5" fill="url(#g)" filter="url(#glow)" />
+          </svg>
+        </div>
+        <div class="bubble ai-b">${fmt(content)}</div>
+      </div>`;
+  }
+  scrollBot(true);
 }
 
 // Rich markdown rendering with marked.js
